@@ -680,7 +680,7 @@ features
                                                     Integer DOWNWARDAPI_defaultMode {doc 'Optional: mode bits to use on created files by default_ Must be a Optional: mode bits used to set permissions on created files by default_ Must be an octal value between 0000 and 0777 or a decimal value between 0 and 511_ YAML accepts both octal and decimal values, JSON requires decimal values for mode bits_ Defaults to 0644_ Directories within the path are not affected by this setting_ This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set_'}
                                             Boolean ephemeral {doc 'ephemeral represents a volume that is handled by a cluster storage driver_ The volume`s lifecycle is tied to the pod that defines it - it will be created before the pod starts, and deleted when the pod is removed_ Use this if: a) the volume is only needed while the pod runs, b) features of normal volumes like restoring from snapshot or capacity tracking are needed, c) the storage driver is specified through a storage class, and d) the storage driver supports dynamic volume provisioning through a PersistentVolumeClaim (see EphemeralVolumeSource for more information on the connection between this volume type and PersistentVolumeClaim)_ Use PersistentVolumeClaim or one of the vendor-specific APIs for volumes that persist for longer than the lifecycle of an individual pod_ Use CSI for light-weight local ephemeral volumes if the CSI driver is meant to be used that way - see the documentation of the driver for more information_ A pod can use both types of ephemeral volumes and persistent volumes at the same time_'}
                                                 mandatory   
-                                                    Boolean EPHEMERAL_volumeClaimTemplate {doc 'Will be used to create a stand-alone PVC to provision the volume_ The pod in which this EphemeralVolumeSource is embedded will be the owner of the PVC, i_e_ the PVC will be deleted together with the pod_ The name of the PVC will be `<pod name>-<volume name>` where `<volume name>` is the name from the `PodSpec_Volumes` array entry_ Pod validation will reject the pod if the concatenated name is not valid for a PVC (for example, too long)_ An existing PVC with that name that is not owned by the pod will *not* be used for the pod to avoid using an unrelated volume by mistake_ Starting the pod is then blocked until the unrelated PVC is removed_ If such a pre-created PVC is meant to be used by the pod, the PVC has to updated with an owner reference to the pod once the pod exists_ Normally this should not be necessary, but it may be useful when manually reconstructing a broken cluster_ This field is read-only and no changes will be made by Kubernetes to the PVC after it has been created_ Required, must not be nil_'}
+                                                    Boolean EPHEMERAL_volumeClaimTemplate {doc 'Will be used to create a stand-alone PVC to provision the volume_ The pod in which this EphemeralVolumeSource is embedded will be the owner of the PVC, i_e_ the PVC will be deleted together with the pod_ The name of the PVC will be `<pod name>-<volume name>` where `<volume name>` is the name from the `PodSpec_Volumes` array entry_ Pod validation will reject the pod if the concatenated name is not valid for a PVC (for example, too long)_ An existing PVC with that name that is not owned by the pod will not be used for the pod to avoid using an unrelated volume by mistake_ Starting the pod is then blocked until the unrelated PVC is removed_ If such a pre-created PVC is meant to be used by the pod, the PVC has to updated with an owner reference to the pod once the pod exists_ Normally this should not be necessary, but it may be useful when manually reconstructing a broken cluster_ This field is read-only and no changes will be made by Kubernetes to the PVC after it has been created_ Required, must not be nil_'}
                                                         mandatory   
                                                             Boolean EPHEMERAL_VOLUMECLAIMTEMPLATE_spec {incomplete, doc 'The specification for the PersistentVolumeClaim_ The entire content is copied unchanged into the PVC that gets created from this template_ The same fields as in a PersistentVolumeClaim are also valid here_'}
                                                         optional   
@@ -834,7 +834,7 @@ features
                                             Boolean PORTS_PROTOCOL_sctp
                                     Integer SERVICESPEC_PORTS_nodePort {doc 'The port on each node on which this service is exposed when type is NodePort or LoadBalancer_ Usually assigned by the system_ If a value is specified, in-range, and not in use it will be used, otherwise the operation will fail_ If not specified, a port will be allocated if this Service requires one_ If this field is specified when creating a Service which does not need it, creation will fail_ This field will be wiped when updating a Service to no longer need it (e_g_ changing type from NodePort to ClusterIP)_ More info: https://kubernetes_io/docs/concepts/services-networking/service/#type-nodeport'}
                                     String SERVICESPEC_PORTS_targetPort {doc 'Number or name of the port to access on the pods targeted by the service_ Number must be in the range 1 to 65535_ Name must be an IANA_SVC_NAME_ If this is a string, it will be looked up as a named port in the target Pod`s container ports_ If this is not specified, the value of the "port" field is used (an identity map)_ This field is ignored for services with clusterIP=None, and should be omitted or set equal to the "port" field_ More info: https://kubernetes_io/docs/concepts/services-networking/service/#defining-a-service'}
-                                    String SERVICESPEC_PORTS_appProtocol {doc 'The application protocol for this port_ This is used as a hint for implementations to offer richer behavior for protocols that they understand_ This field follows standard Kubernetes label syntax_ Valid values are either: * Un-prefixed protocol names - reserved for IANA standard service names (as per RFC-6335 and https://www_iana_org/assignments/service-names)_ * Kubernetes-defined prefixed names: * "kubernetes_io/h2c" - HTTP/2 prior knowledge over cleartext as described in https://www_rfc-editor_org/rfc/rfc9113_html#name-starting-http-2-with-prior- * "kubernetes_io/ws" - WebSocket over cleartext as described in https://www_rfc-editor_org/rfc/rfc6455 * "kubernetes_io/wss" - WebSocket over TLS as described in https://www_rfc-editor_org/rfc/rfc6455 * Other protocols should use implementation-defined prefixed names such as mycompany_com/my-custom-protocol_'}
+                                    String SERVICESPEC_PORTS_appProtocol {doc 'The application protocol for this port_ This is used as a hint for implementations to offer richer behavior for protocols that they understand_ This field follows standard Kubernetes label syntax_ Valid values are either: _ Un-prefixed protocol names - reserved for IANA standard service names (as per RFC-6335 and https://www_iana_org/assignments/service-names)_ _ Kubernetes-defined prefixed names: _ "kubernetes_io/h2c" - HTTP/2 prior knowledge over cleartext as described in https://www_rfc-editor_org/rfc/rfc9113_html#name-starting-http-2-with-prior- _ "kubernetes_io/ws" - WebSocket over cleartext as described in https://www_rfc-editor_org/rfc/rfc6455 _ "kubernetes_io/wss" - WebSocket over TLS as described in https://www_rfc-editor_org/rfc/rfc6455 _ Other protocols should use implementation-defined prefixed names such as mycompany_com/my-custom-protocol_'}
                             Boolean SERVICESPEC_publishNotReadyAddresses {doc 'publishNotReadyAddresses indicates that any agent which deals with endpoints for this Service should disregard any indications of ready/not-ready_ The primary use case for setting this field is for a StatefulSet`s Headless Service to propagate SRV DNS records for its Pods for the purpose of peer discovery_ The Kubernetes controllers that generate Endpoints and EndpointSlice resources for Services interpret this to mean that all endpoints are considered "ready" even if the Pods themselves are not_ Agents which consume only Kubernetes generated endpoints through the Endpoints or EndpointSlice resources can safely assume this behavior_'}
                             Boolean SERVICESPEC_Selector cardinality [1..*] {doc 'Route service traffic to pods with label keys and values matching this selector_ If empty or not present, the service is assumed to have an external process managing its endpoints, which Kubernetes will not modify_ Only applies to types ClusterIP, NodePort, and LoadBalancer_ Ignored if type is ExternalName_ More info: https://kubernetes_io/docs/concepts/services-networking/service/'}
                                 mandatory
@@ -943,7 +943,7 @@ features
                         mandatory   
                             Integer SUBSETS_PORTS_port {doc 'The port number of the endpoint_'}
                         optional   
-                            String SUBSETS_PORTS_appProtocol {doc 'The application protocol for this port_ This is used as a hint for implementations to offer richer behavior for protocols that they understand_ This field follows standard Kubernetes label syntax_ Valid values are either: * Un-prefixed protocol names - reserved for IANA standard service names (as per RFC-6335 and https://www_iana_org/assignments/service-names)_ * Kubernetes-defined prefixed names: * "kubernetes_io/h2c" - HTTP/2 prior knowledge over cleartext as described in https://www_rfc-editor_org/rfc/rfc9113_html#name-starting-http-2-with-prior- * "kubernetes_io/ws" - WebSocket over cleartext as described in https://www_rfc-editor_org/rfc/rfc6455 * "kubernetes_io/wss" - WebSocket over TLS as described in https://www_rfc-editor_org/rfc/rfc6455 * Other protocols should use implementation-defined prefixed names such as mycompany_com/my-custom-protocol_'}
+                            String SUBSETS_PORTS_appProtocol {doc 'The application protocol for this port_ This is used as a hint for implementations to offer richer behavior for protocols that they understand_ This field follows standard Kubernetes label syntax_ Valid values are either: _ Un-prefixed protocol names - reserved for IANA standard service names (as per RFC-6335 and https://www_iana_org/assignments/service-names)_ _ Kubernetes-defined prefixed names: _ "kubernetes_io/h2c" - HTTP/2 prior knowledge over cleartext as described in https://www_rfc-editor_org/rfc/rfc9113_html#name-starting-http-2-with-prior- _ "kubernetes_io/ws" - WebSocket over cleartext as described in https://www_rfc-editor_org/rfc/rfc6455 _ "kubernetes_io/wss" - WebSocket over TLS as described in https://www_rfc-editor_org/rfc/rfc6455 _ Other protocols should use implementation-defined prefixed names such as mycompany_com/my-custom-protocol_'}
                             String SUBSETS_PORTS_name {doc 'The name of this port_ This must match the "name" field in the corresponding ServicePort_ Must be a DNS_LABEL_ Optional only if one port is defined_'}
                             Boolean SUBSETS_PORTS_protocol {doc 'The IP protocol for this port_ Must be UDP, TCP, or SCTP_ Default is TCP_'}
                                 alternative  
@@ -952,11 +952,11 @@ features
                                     Boolean SUBSETS_PORTS_SCTP
             Boolean rules cardinality [1..*] {doc 'Rules holds all the PolicyRules for this Role'} 
                 mandatory
-                    Boolean RULES_apiGroups cardinality [1..*] {doc 'APIGroups is the name of the APIGroup that contains the resources_ If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed_ "" represents the core API group and "*" represents all API groups_'}
+                    Boolean RULES_apiGroups cardinality [1..*] {doc 'APIGroups is the name of the APIGroup that contains the resources_ If multiple API groups are specified, any action requested against one of the enumerated resources in any API group will be allowed_ "" represents the core API group and represents all API groups_'}
                         mandatory
                             String RULES_APIGROUPS_value
                 optional   
-                    Boolean RULES_nonResourceURLs cardinality [1..*] {doc 'NonResourceURLs is a set of partial urls that a user should have access to_ *s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding_ Rules can either apply to API resources (such as "pods" or "secrets") or non-resource URL paths (such as "/api"), but not both_'}
+                    Boolean RULES_nonResourceURLs cardinality [1..*] {doc 'NonResourceURLs is a set of partial urls that a user should have access to_ s are allowed, but only as the full, final step in the path Since non-resource URLs are not namespaced, this field is only applicable for ClusterRoles referenced from a ClusterRoleBinding_ Rules can either apply to API resources (such as "pods" or "secrets") or non-resource URL paths (such as "/api"), but not both_'}
                         mandatory
                             String RULES_NONRESOURCEURLS_value
                     Boolean RULES_resourceNames cardinality [1..*] {doc 'ResourceNames is an optional white list of names that the rule applies to_ An empty set means that everything is allowed_'}
@@ -974,14 +974,12 @@ features
                     String STRINGDATA_key
                     String STRINGDATA_value
 constraints
-    // Restrincciones de Group
     (GROUP_apiextensions | GROUP_apiregistration | GROUP_apps | GROUP_authorization | GROUP_batch | GROUP_coordination | GROUP_core | GROUP_discovery | GROUP_events | GROUP_node | GROUP_policy | GROUP_rbac | GROUP_scheduling) => VERSION_v1
     (GROUP_admissionregistration | GROUP_authentication) => VERSION_v1 | VERSION_v1beta1 | VERSION_v1alpha1
     (GROUP_certificates | GROUP_internal | GROUP_networking | GROUP_storage) => VERSION_v1 | VERSION_v1alpha1 
     GROUP_autoscaling => VERSION_v2 | VERSION_v1 
     GROUP_flowcontrol => VERSION_v1beta3 | VERSION_v1
     GROUP_resource => VERSION_v1alpha2 | VERSION_v1
-    // Restricciones de Kind
     (KIND_DaemonSet | KIND_Deployment | KIND_ReplicaSet | KIND_StatefullSet | KIND_ControllerRevision) => GROUP_apps
     (KIND_Container | KIND_Pod | KIND_ReplicationController | KIND_Service | KIND_Endpoints | KIND_ConfigMap | KIND_Secret | KIND_PersistentVolumeClaim | KIND_Volume | KIND_LimitRange | KIND_PodTemplate | KIND_Binding | KIND_ComponentStatus | KIND_Namespace | KIND_Node | KIND_PersistentVolume | KIND_ResourceQuota | KIND_ServiceAccount) => GROUP_core
     (KIND_CronJob | KIND_Job) => GROUP_batch
@@ -1004,11 +1002,10 @@ constraints
     (KIND_SelfSubjectReview | KIND_TokenRequest | KIND_TokenReview) => GROUP_authentication
     KIND_StorageVersion => GROUP_internal
     (KIND_ClusterRole | KIND_ClusterRoleBinding | KIND_Role | KIND_RoleBinding)=> GROUP_rbac
-    // Resto de restricciones
     DeploymentSpec & PodSpec & ServiceSpec => spec
     (TYPE_NodePort | TYPE_LoadBalancer) => (SERVICESPEC_PORTS_nodePort > 0)
     KIND_ConfigMap => binaryData | data 
-    KIND_Secret => data & (type == '')
+    KIND_Secret => data & (type)
     KIND_Endpoints => subsets
     KIND_Role => rules
     immutable => KIND_ConfigMap | KIND_Secret
@@ -1023,11 +1020,11 @@ constraints
     SERVICESPEC_clusterIP => !SERVICESPEC_clusterIPs
     SERVICESPEC_clusterIPs => !SERVICESPEC_clusterIP
     SERVICESPEC_clusterIP => !TYPE_ExternalName
-    (SERVICESPEC_externalName == '') => TYPE_ExternalName
+    (SERVICESPEC_externalName) => TYPE_ExternalName
     SERVICESPEC_ipFamilyPolicy => !TYPE_ExternalName
     SERVICESPEC_ipFamilies => TYPE_ClusterIP | TYPE_NodePort | TYPE_LoadBalancer
     (SERVICESPEC_healthCheckNodePort > 0) => TYPE_LoadBalancer & EXTERNALTRAFFICPOLICY_Local
-    (SERVICESPEC_loadBalancerClass == '') => TYPE_LoadBalancer
+    (SERVICESPEC_loadBalancerClass) => TYPE_LoadBalancer
     SESSIONAFFINITY_clientIP => (CLIENTIP_timeoutSeconds > 0) & (CLIENTIP_timeoutSeconds < 86401)
     PODSPEC_activeDeadlineSeconds > 0
     LIVENESSPROBE_GRPC_port > 0 & LIVENESSPROBE_GRPC_port < 65535
@@ -1058,15 +1055,15 @@ constraints
     SERVICESPEC_allocateLoadBalancerNodePorts => TYPE_LoadBalancer
     ServiceSpec => KIND_Service
     (SERVICESPEC_healthCheckNodePort > 0) => TYPE_LoadBalancer & EXTERNALTRAFFICPOLICY_Local
-    (SERVICESPEC_loadBalancerClass == '') => TYPE_LoadBalancer
-    (CONTAINERS_APPARMORPROFILE_localhostProfile == '') => CONTAINERS_APPARMORPROFILE_TYPE_LocalHost
+    (SERVICESPEC_loadBalancerClass) => TYPE_LoadBalancer
+    (CONTAINERS_APPARMORPROFILE_localhostProfile) => CONTAINERS_APPARMORPROFILE_TYPE_LocalHost
     CONTAINERS_WINDOWSOPTIONS_hostProcess => PODSPEC_hostNetwork
     VOLUMEMOUNTS_recursiveReadOnly == 'ifPossible'| VOLUMEMOUNTS_recursiveReadOnly == 'Enabled'=> VOLUMEMOUNTS_mountPropagation == 'None'
-    (VOLUMEMOUNTS_subPath == '') => !(VOLUMEMOUNTS_subPathExpr == '')
-    (VOLUMEMOUNTS_subPathExpr == '') => !(VOLUMEMOUNTS_subPath == '')
+    (VOLUMEMOUNTS_subPath) => !(VOLUMEMOUNTS_subPathExpr)
+    (VOLUMEMOUNTS_subPathExpr) => !(VOLUMEMOUNTS_subPath)
     CONFIGMAP_defaultMode > 0 & CONFIGMAP_defaultMode < 511
     RULES_apiGroups => RULES_verbs
-    CONTAINERS_ENV_valueFrom => (CONTAINERS_ENV_value == '')
+    CONTAINERS_ENV_valueFrom => (CONTAINERS_ENV_value)
     DOWNWARDAPI_defaultMode < 511 & DOWNWARDAPI_defaultMode > 0
     DOWNWARDAPI_mode < 511 & DOWNWARDAPI_mode > 0
     PROJECTED_defaultmode < 511 & PROJECTED_defaultmode > 0
