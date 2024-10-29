@@ -1,0 +1,74 @@
+{
+  "file": "Kubernetes_manifest_v2.uvl",
+  "config": {
+    "Kubernetes_manifest": true,
+    "apiVersion": true,
+    "Group": true,
+    "GROUP_core": true,
+    "Version": true,
+    "VERSION_v1": true,
+    "kind": true,
+    "Metadata_APIs": true,
+    "KIND_Service": true,
+    "metadata": true,
+    "METADATA_name": "test-Service",
+    "METADATA_deletionGracePeriodSeconds": 2.0,
+    "METADATA_namespace": "test-namespace",
+    "spec": true,
+    "ServiceSpec": true,
+    "SERVICESPEC_allocateLoadBalancerNodePorts": false,
+    "SERVICESPEC_clusterIP": true,
+    "CLUSTERIP_emptyString": true,
+    "SERVICESPEC_clusterIPs": [
+      {
+        "CLUSTERIPS_IPs": "10.0.0.0"
+      }
+    ],
+    "SERVICESPEC_externalIPs": [
+      {
+        "SERVICESPEC_EXTERNALIPS_ip": "192.168.1.1"
+      }
+    ],
+    "SERVICESPEC_externalName": "external-name",
+    "SERVICESPEC_externalTrafficPolicy": true,
+    "EXTERNALTRAFFICPOLICY_Local": true,
+    "SERVICESPEC_healthCheckNodePort": 5,
+    "SERVICESPEC_internalTrafficPolicy": true,
+    "INTERNALTRAFFICPOLICY_Cluster": true,
+    "SERVICESPEC_ipFamilies": true,
+    "IPFAMILIES_IPv4": true,
+    "SERVICESPEC_ipFamilyPolicy": true,
+    "RequireDualStack": true,
+    "SERVICESPEC_loadBalancerClass": "example.com/internal-vip",
+    "SERVICESPEC_Ports": [
+      {
+        "SERVICESPEC_PORTS_port": 3662,
+        "SERVICESPEC_PORTS_name": "portname",
+        "SERVICESPEC_PORTS_protocol": true,
+        "PORTS_PROTOCOL_sctp":true,
+        "SERVICESPEC_PORTS_nodePort": 2923,
+        "SERVICESPEC_PORTS_targetPort": "2342",
+        "SERVICESPEC_PORTS_appProtocol": "kubernetes.io/h2c"
+      }
+    ],
+    "SERVICESPEC_publishNotReadyAddresses": true,
+    "SERVICESPEC_Selector":[
+      {
+        "SELECTOR_key": "app",
+        "SELECTOR_value": "my-app"
+      },
+      {
+        "SELECTOR_key": "tier",
+        "SELECTOR_value": "frontend"
+      }
+    ],
+    "SERVICESPEC_sessionAffinity": true,
+    "SESSIONAFFINITY_clientIP": true,
+    "SERVICESPEC_sessionAffinityConfig": true,
+    "SESSIONAFFINITYCONFIG_clientIP": true,
+    "CLIENTIP_timeoutSeconds": 10800,
+    "SERVICESPEC_trafficDistribution": "PreferClose",
+    "SERVICESPEC_Type": true,
+    "TYPE_LoadBalancer": true
+  }
+}

@@ -1,0 +1,624 @@
+{
+  "file": "Kubernetes_manifest_v2.uvl",
+  "config": {
+    "Kubernetes resource object": true,
+    "apiVersion": true,
+    "Group": true,
+    "GROUP_apps": true,
+    "Version": true,
+    "VERSION_v1": true,
+    "kind": true,
+    "KIND_Deployment": true,
+    "metadata": true,
+    "METADATA_name": "testDeployment",
+    "METADATA_namespace": "testNamespace",
+    "METADATA_labels": [
+      {
+        "LABELS_key": "key_1",
+        "LABELS_value": "Value_1"
+      },
+      {
+        "LABELS_key": "Key_2",
+        "LABELS_value": "Value_2"
+      }
+    ],
+    "METADATA_annotations": [
+      {
+        "ANNOTATIONS_key": "key_1",
+        "ANNOTATIONS_value": "Value_1"
+      },
+      {
+        "ANNOTATIONS_key": "Key_2",
+        "ANNOTATIONS_value": "Value_2"
+      }
+    ],
+    "METADATA_deletionGracePeriodSeconds": 3,
+    "spec": true,
+    "DeploymentSpec": true,
+    "DEPLOYMENTSPEC_minReadySeconds": 3,
+    "DEPLOYMENTSPEC_paused": true,
+    "DEPLOYMENTSPEC_progressDeadlineSeconds": 10,
+    "DEPLOYMENTSPEC_replicas": 1,
+    "DEPLOYMENTSPEC_revisionHistoryLimit": 1,
+    "DEPLOYMENTSPEC_selector": true,
+    "SELECTOR_matchLabels": [
+      {
+        "MATCHLABELS_key": "key_1",
+        "MATCHLABELS_value": "Value_1"
+      },
+      {
+        "MATCHLABELS_key": "Key_2",
+        "MATCHLABELS_value": "Value_2"
+      }
+    ],
+    "SELECTOR_matchExpressions": [
+      {
+        "MATCHEXPRESSIONS_key": "key_1",
+        "MATCHEXPRESSIONS_operator": true,
+        "OPERATOR_notIn": true,
+        "MATCHEXPRESSIONS_values": [
+          {
+            "MATCHEXPRESSIONS_value": "Valor_1"
+          },
+          {
+            "MATCHEXPRESSIONS_value": "Valor_2"
+          }
+        ]
+      },
+      {
+        "MATCHEXPRESSIONS_key": "Key_2",
+        "MATCHEXPRESSIONS_operator": true,
+        "OPERATOR_doesNotExist": true
+      }
+    ],
+    "DEPLOYMENTSPEC_strategy": true,
+    "STRATEGY_type": true,
+    "STRATEGY_TYPE_Recreate": false,
+    "STRATEGY_TYPE_RollingUpdate": true,
+    "maxUnavailable": 1,
+    "maxSurge": 1,
+    "DEPLOYMENTSPEC_template": true,
+    "DEPLOYMENTSPEC_TEMPLATE_metadata": true,
+    "TEMPLATE_METADATA_name": "testname",
+    "TEMPLATE_METADATA_namespace": "namepace_de_prueba",
+    "TEMPLATE_METADATA_labels": [
+      {
+        "TEMPLATE_METADATA_LABELS_key": "key_1",
+        "TEMPLATE_METADATA_LABELS_value": "Value_1"
+      },
+      {
+        "TEMPLATE_METADATA_LABELS_key": "Key_2",
+        "TEMPLATE_METADATA_LABELS_value": "Value_2"
+      }
+    ],
+    "TEMPLATE_METADATA_annotations": [
+      {
+        "TEMPLATE_METADATA_ANNOTATIONS_key": "key_1",
+        "TEMPLATE_METADATA_ANNOTATIONS_value": "Value_1"
+      },
+      {
+        "TEMPLATE_METADATA_ANNOTATIONS_key": "Key_2",
+        "TEMPLATE_METADATA_ANNOTATIONS_value": "Value_2"
+      }
+    ],
+    "TEMPLATE_METADATA_deletionGracePeriodSeconds": 3,
+    "DEPLOYMENTSPEC_TEMPLATE_podspec": true,
+    "PodSpec": true,
+    "PODSPEC_containers":[
+      {
+        "CONTAINERS_name": "contenedor",
+        "CONTAINERS_image": "imagen:1.13",
+        "CONTAINERS_args": [
+          {
+            "CONTAINERS_ARGS_value": "while true"
+          },
+          {
+            "CONTAINERS_ARGS_value": "do echo prueba"
+          }
+        ],
+        "CONTAINERS_command": [
+          {
+            "CONTAINERS_COMMAND_value": "sh"
+          },
+          {
+            "CONTAINERS_COMMAND_value": "-c"
+          }
+        ],
+        "CONTAINERS_env": [
+          {
+            "CONTAINERS_ENV_name": "MY_ENV_VAR",
+            "CONTAINERS_ENV_value": "Hello from container"
+          },
+          {
+            "CONTAINERS_ENV_valueFrom": true,
+            "configMapKeyRef": true,
+            "CONTAINERS_ENV_name": "CONFIG_VAR",
+            "CONFIGMAPKEYREF_name": "example-configmap",
+            "CONFIGMAPKEYREF_key": "example-key",
+            "CONFIGMAPKEYREF_optional": true
+          },
+          {
+            "CONTAINERS_ENV_valueFrom": true,
+            "fieldRef": true,
+            "CONTAINERS_ENV_name": "POD_NAME",
+            "FIELDREF_fieldPath": "metadata.name",
+            "FIELDREF_apiversion": "v1"
+          },
+          {
+            "CONTAINERS_ENV_valueFrom": true,
+            "CONTAINERS_ENV_name": "CPU_REQUEST",
+            "resourceFieldRef": true,
+            "RESOURCEFIELDREF_containerName": "contenedor",
+            "RESOURCEFIELDREF_resource": "requests.cpu",
+            "RESOURCEFIELDREF_divisor": "test-divisor"
+          },
+          {
+            "CONTAINERS_ENV_valueFrom": true,
+            "CONTAINERS_ENV_name": "SECRET_PASSWORD",
+            "secretKeyRef": true,
+            "SECRETKEYREF_key": "example-secret",
+            "SECRETKEYREF_name": "example-password",
+            "SECRETKEYREF_optional": false
+          }
+        ],
+        "CONTAINERS_envFrom": [
+          {
+            "ENVFROM_configMapRef": true,
+            "CONFIGMAPREF_name": "example-configmap",
+            "CONFIGMAPREF_optional": true
+          },
+          {
+            "ENVFROM_secretRef": true,
+            "SECRETREF_name": "example-secret",
+            "SECRETREF_optional": true
+          }
+        ],
+        "CONTAINERS_imagePullPolicy": true,
+        "IMAGEPULLPOLICY_always": true,
+        "IMAGEPULLPOLICY_never": false,
+        "IMAGEPULLPOLICY_ifNotPresent": false,
+
+        "CONTAINERS_lifecycle": true,
+        "LIFECYCLE_postStart": true,
+        "POSTSTART_exec": [
+          {
+            "POSTSTART_EXEC_command": "nginx"
+          },
+          {
+            "POSTSTART_EXEC_command": "-s"
+          },
+          {
+            "POSTSTART_EXEC_command": "quit"
+          }
+        ],
+        "POSTSTART_sleep": true,
+        "POSTSTART_SLEEP_seconds": null, 
+        "POSTSTART_httpGet": true,
+        "POSTSTART_HTTPGET_host": "0.0.0.0",
+        "POSTSTART_HTTPGET_httpHeaders": [
+          {
+            "POSTSTART_HTTPHEADERS_name": "nameHeader",
+            "POSTSTART_HTTPHEADERS_value": "valueHeader"
+          }
+        ],
+        "POSTSTART_HTTPGET_port": 4664,
+        "POSTSTART_HTTPGET_path": "/path/to/HTTP",
+        "POSTSTART_HTTPGET_scheme": "HTTP",
+        "LIFECYCLE_preStop": true,
+        "PRESTOP_exec": [
+          {
+            "PRESTOP_EXEC_command": "python"
+          },
+          {
+            "PRESTOP_EXEC_command": "--version"
+          }
+        ],
+        "PRESTOP_sleep": true,
+        "PRESTOP_SLEEP_seconds": null, 
+        "PRESTOP_httpGet": true,
+        "PRESTOP_HTTPGET_host": "127.0.0.1",
+        "PRESTOP_HTTPGET_httpHeaders": [
+          {
+            "PRESTOP_HTTPHEADERS_name": "nameHeader",
+            "PRESTOP_HTTPHEADERS_value": "valueHeader"
+          }
+        ],
+        "PRESTOP_HTTPGET_port": 4664,
+        "PPRESTOP_HTTPGET_path": "/path/to/HTTP",
+        "PRESTOP_HTTPGET_scheme": "HTTP",
+        "CONTAINERS_livenessProbe": true,
+        "LIVENESSPROBE_exec": [
+          {
+            "LIVENESSPROBE_EXEC_command": "ls"
+          }
+        ],
+        "LIVENESSPROBE_failureThreshold": 3,
+        "LIVENESSPROBE_grpc": true,
+        "LIVENESSPROBE_GRPC_port": 5666,
+        "LIVENESSPROBE_GRPC_service": "service.name",
+        "LIVENESSPROBE_httpGet": true,
+        "LIVENESSPROBE_HTTPGET_host": "127.0.0.1",
+        "LIVENESSPROBE_HTTPGET_httpHeaders": [
+          {
+            "LIVENESSPROBE_HTTPHEADERS_name": "nameHeader",
+            "LIVENESSPROBE_HTTPHEADERS_value": "valueHeader"
+          }
+        ],
+        "LIVENESSPROBE_HTTPGET_port": 4664,
+        "LIVENESSPROBE_HTTPGET_path": "/path/to/HTTP",
+        "LIVENESSPROBE_HTTPGET_scheme": "HTTP",
+        "LIVENESSPROBE_initialDelaySeconds": 5,
+        "LIVENESSPROBE_periodSeconds": 10,
+        "LIVENESSPROBE_successThreshold": 2,
+        "LIVENESSPROBE_timeoutSeconds": 1,
+        "LIVENESSPROBE_tcpSocket": true,
+        "LIVENESSPROBE_TCPSOCKET_port": 9281,
+        "LIVENESSPROBE_TCPSOCKET_host": "hostTCP",
+        "LIVENESSPROBE_terminationGracePeriodSeconds": 1,
+        "CONTAINERS_ports":[
+          {
+            "CONTAINERS_PORTS_containerPort": 6562,
+            "CONTAINERS_PORTS_hostIP": "192.12.45.21",
+            "CONTAINERS_PORTS_hostPort": 80,
+            "CONTAINERS_PORTS_name": "testPort",
+            "CONTAINERS_PORTS_protocol": true,
+            "PROTOCOL_UDP": true,
+            "PROTOCOL_TCP": false,
+            "PROTOCOL_SCTP": false
+          }
+        ],
+        "CONTAINERS_readinessProbe": true,
+        "READINESSPROBE_exec": [
+          {
+            "READINESSPROBE_EXEC_command": "ls"
+          }
+        ],
+        "READINESSPROBE_failureThreshold": 3,
+        "READINESSPROBE_grpc": true,
+        "READINESSPROBE_GRPC_port": 5666,
+        "READINESSPROBE_GRPC_service": "service.name",
+        "READINESSPROBE_httpGet": true,
+        "READINESSPROBE_HTTPGET_host": "127.0.0.1",
+        "READINESSPROBE_HTTPGET_httpHeaders": [
+          {
+            "READINESSPROBE_HTTPHEADERS_name": "nameHeader",
+            "READINESSPROBE_HTTPHEADERS_value": "valueHeader"
+          }
+        ],
+        "READINESSPROBE_HTTPGET_port": 4664,
+        "READINESSPROBE_HTTPGET_path": "/path/to/HTTP",
+        "READINESSPROBE_HTTPGET_scheme": "HTTP",
+        "READINESSPROBE_initialDelaySeconds": 5,
+        "READINESSPROBE_periodSeconds": 10,
+        "READINESSPROBE_successThreshold": 2,
+        "READINESSPROBE_timeoutSeconds": 1,
+        "READINESSPROBE_tcpSocket": true,
+        "READINESSPROBE_TCPSOCKET_port": 9281,
+        "READINESSPROBE_TCPSOCKET_host": "hostTCP",
+        "READINESSPROBE_terminationGracePeriodSeconds": 1,
+        "CONTAINERS_resizePolicy":[
+          {
+            "RESIZEPOLICY_resourceName": true,
+            "CONTAINERS_RESIZEPOLICY_RESTARTPOLICY_cpu": true,
+            "CONTAINERS_RESIZEPOLICY_RESTARTPOLICY_memory": false,
+            "RESIZEPOLICY_restartPolicy": "NotRequired"
+          }
+        ],
+        "CONTAINERS_restartPolicy": "Always",
+        "CONTAINERS_resources": true,
+        "RESOURCES_request": true,
+        "REQUEST_cpu": "500m",
+        "REQUEST_memory":"512Mi",
+        "RESOURCES_limits": true,
+        "LIMITS_cpu": "1",
+        "LIMITS_memory": "1Gi",
+        "RESOURCES_claims": true,
+        "RESOURCES_CLAIMS_name": "claim-test",
+        "CONTAINERS_securityContext":true,
+        "CONTAINERS_SECURITYCONTEXT_allowPrivilegeEscalation": true,
+        "CONTAINERS_SECURITYCONTEXT_privileged": true,
+        "CONTAINERS_SECURITYCONTEXT_procMount": "Default",
+        "CONTAINERS_SECURITYCONTEXT_readOnlyRootFilesystem": true,
+        "CONTAINERS_SECURITYCONTEXT_runAsGroup": 1,
+        "CONTAINERS_SECURITYCONTEXT_runAsNonRoot": true,
+        "CONTAINERS_SECURITYCONTEXT_runAsUser": 1,
+        "CONTAINERS_SECURITYCONTEXT_capabilities": true,
+        "CONTAINERS_CAPABILITIES_add": [
+          {
+            "CONTAINERS_addedCapabilities":"NET_ADMIN"
+          }
+        ],
+        "CONTAINERS_CAPABILITIES_drop":[
+          {
+            "CONTAINERS_removedCapabilities": "ALL"
+          }
+        ],
+        "CONTAINERS_SECURITYCONTEXT_seLinuxOptions": true,
+        "CONTAINERS_SELINUXOPTIONS_user": "system_u",
+        "CONTAINERS_SELINUXOPTIONS_role": "system_r",
+        "CONTAINERS_SELINUXOPTIONS_type": "spc_t",
+        "CONTAINERS_SELINUXOPTIONS_level": "s0:c123,c456", 
+        "CONTAINERS_SECURITYCONTEXT_seccompProfile": true,
+        "CONTAINERS_SECCOMPROFILE_localhostProfile": "dwd",
+        "CONTAINERS_SECCOMPROFILE_type": true,
+        "CONTAINERS_SECCOMPROFILE_Type_Unconfined": true,
+        "CONTAINERS_SECURITYCONTEXT_windowsOptions": true,
+        "CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpec": "credentialSpec",
+        "CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpecName":"my-gmsa-credential-spec",
+        "CONTAINERS_WINDOWSOPTIONS_hostProcess":true,
+        "CONTAINERS_WINDOWSOPTIONS_runAsUserName":"ContainerUser",
+        "CONTAINERS_startupProbe": true,
+        "STARTUPPROBE_exec": [
+          {
+            "STARTUPPROBE_EXEC_command": "ls"
+          }
+        ],
+        "STARTUPPROBE_failureThreshold": 3,
+        "STARTUPPROBE_grpc": true,
+        "STARTUPPROBE_GRPC_port": 5666,
+        "STARTUPPROBE_GRPC_service": "service.name",
+        "STARTUPPROBE_httpGet": true,
+        "STARTUPPROBE_HTTPGET_host": "127.0.0.1",
+        "STARTUPPROBE_HTTPGET_httpHeaders": [
+          {
+            "STARTUPPROBE_HTTPHEADERS_name": "nameHeader",
+            "STARTUPPROBE_HTTPHEADERS_value": "valueHeader"
+          }
+        ],
+        "STARTUPPROBE_HTTPGET_port": 4664,
+        "STARTUPPROBE_HTTPGET_path": "/path/to/HTTP",
+        "STARTUPPROBE_HTTPGET_scheme": "HTTP",
+        "STARTUPPROBE_initialDelaySeconds": 5,
+        "STARTUPPROBE_periodSeconds": 10,
+        "STARTUPPROBE_successThreshold": 2,
+        "STARTUPPROBE_timeoutSeconds": 1,
+        "STARTUPPROBE_tcpSocket": true,
+        "STARTUPPROBE_TCPSOCKET_port": 9281,
+        "STARTUPPROBE_TCPSOCKET_host": "hostTCP",
+        "STARTUPPROBE_terminationGracePeriodSeconds": 1,
+        "CONTAINERS_stdin": true,
+        "CONTAINERS_stdinOnce": true,
+        "CONTAINERS_terminationMessagePath":"/dev/termination-log",
+        "CONTAINERS_terminationMessagePolicy": "FallbackToLogsOnError",
+        "CONTAINERS_tty": true,
+        "CONTAINERS_volumeDevices": [
+          {
+            "VOLUMEDEVICES_devicePath": "path/to/device1",
+            "VOLUMEDEVICES_name": "device1"
+          }
+        ],
+        "CONTAINERS_volumeMounts": [
+          {
+            "VOLUMEMOUNTS_mountPath": "path/to/device2",
+            "VOLUMEMOUNTS_name": "device2",
+            "VOLUMEMOUNTS_readonly": true,
+            "VOLUMEMOUNTS_mountPropagation": "",
+            "VOLUMEMOUNTS_recursiveReadOnly": "",
+            "VOLUMEMOUNTS_subPath": ""
+          }
+        ],
+        "CONTAINERS_workingDir": "/working/dir"
+      }
+    ],
+    "PODSPEC_serviceAccountName": "serviceAccount",
+    "PODSPEC_initContainers":[
+      {
+        "INITCONTAINERS_name": "contenedorInicial",
+        "INITCONTAINERS_image": "imagen:1.13"
+      }
+    ],
+    "PODSPEC_activeDeadlineSeconds": "10",
+    "PODSPEC_affinity": true,
+    "AFFINITY_nodeAffinity": true,
+    "AFFINITY_podAffinity": true,
+    "AFFINITY_podAntiAffinity": true,
+    "PODSPEC_automountServiceAccountToken": true,
+    "PODSPEC_dnsPolicy": true,
+    "DNSPOLICY_ClusterFirstWithHostNet": true,
+    "DNSPOLICY_ClusterFirst": false,
+    "DNSPOLICY_Default": false,
+    "DNSPOLICY_None": false, 
+    "PODSPEC_enableServiceLinks": false,
+    "PODSPEC_hostIPC": true,
+    "PODSPEC_hostNetwork": true,
+    "PODSPEC_hostPID": true,
+    "PODSPEC_hostUsers": false,
+    "PODSPEC_hostname": "hostname",
+    "PODSPEC_nodeName": "nodeName",
+    "PODSPEC_Volumes": [
+      {
+        "VOLUMES_name": "emptyDir-volume",
+        "VOLUMES_type": true,
+        "emptyDir": true,
+        "EMPTYDIR_medium": true,
+        "EMPTYDIR_MEDIUM_memory": true,
+        "EMPTYDIR_sizeLimit": "256Mi"
+      },
+      {
+        "VOLUMES_name": "hostPath-volume",
+        "VOLUMES_type": true,
+        "hostPath": true,
+        "HOSTPATH_path": "path/to/volume",
+        "HOSTPATH_type": "Directory"
+      },
+      {
+        "VOLUMES_name": "persistentVolumeClaim-volume",
+        "VOLUMES_type": true,
+        "persistentVolumeClaim": true,
+        "PERSISTENTVOLUMECLAIM_claimName": "name-claim",
+        "PERSISTENTVOLUMECLAIM_readOnly": true
+      },
+      {
+        "VOLUMES_name": "secret-volume",
+        "VOLUMES_type": true,
+        "secret": true,
+        "SECRET_secretName": "name-secret",
+        "SECRET_optional": true,
+        "SECRET_defaultMode": 231,
+        "SECRET_items":[
+          {
+            "SECRET_ITEMS_key": "key-item",
+            "SECRET_ITEMS_mode": 3,
+            "SECRET_ITEMS_path": "path/to/item"
+          }
+        ]
+      },
+      {
+        "VOLUMES_name": "configMap-volume",
+        "VOLUMES_type": true,
+        "configMap": true,
+        "CONFIGMAP_name": "name-configMap",
+        "CONFIGMAP_optional": true,
+        "CONFIGMAP_defaultMode": 231,
+        "CONFIGMAP_items":[
+          {
+            "CONFIGMAP_ITEMS_key": "config.properties",
+            "CONFIGMAP_ITEMS_path": "config.properties"
+          },
+          {
+            "CONFIGMAP_ITEMS_key": "myKey",
+            "CONFIGMAP_ITEMS_path": "another-config.ini"
+          }
+        ]
+      },
+      {
+        "VOLUMES_name": "nfs-volume",
+        "VOLUMES_type": true,
+        "nfs": true,
+        "NFS_path": "path/to/nfs",
+        "NFS_server": "server-nfs",
+        "NFS_readOnly": true
+      },
+      {
+        "VOLUMES_name": "csi-volume",
+        "VOLUMES_type": true,
+        "csi": true,
+        "CSI_driver": "driver-csi",
+        "CSI_readOnly": true,
+        "CSI_fsType": "fsType",
+        "CSI_nodePublichSecretRef": true,
+        "CSI_NODEPUBLISHSECRETREF_name": "name-secret"
+      },
+      {
+        "VOLUMES_name": "downwardAPI-volume",
+        "VOLUMES_type": true,
+        "downwardAPI": true,
+        "DOWNWARDAPI_items": [
+          {
+            "DOWNWARDAPI_ITEMS_fieldRef": true,
+            "DOWNWARDAPI_ITEMS_FIELDREF_apiVersion": "metadata.name",
+            "DOWNWARDAPI_ITEMS_FIELDREF_fieldPath": "name",
+            "DOWNWARDAPI_ITEMS_path": "path/to/item",
+            "DOWNWARDAPI_mode": 3,
+            "DOWNWARDAPI_ITEMS_resourceFieldRef": true,
+            "DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_resource": "requests.cpu",
+            "DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_containerName": "containerName",
+            "DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_divisor": "divisor"
+          }
+        ],
+        "DOWNWARDAPI_defaultMode": 231
+      },
+      {
+        "VOLUMES_name": "fc-volume",
+        "VOLUMES_type": true,
+        "fc": true,
+        "FC_fsType": "fsType",
+        "FC_readOnly": true,
+        "FC_lun": 1,
+        "FC_targetWWNs":[
+          {
+          "FC_TARGETWWNS_targetWWN": "targetWWN"
+          }
+        ],
+        "FC_wwids":[
+          {
+          "FC_WWIDS_wwid": "wwid"
+          }
+        ]
+      },
+      {
+        "VOLUMES_name": "iscsi-volume",
+        "VOLUMES_type": true,
+        "iscsi": true,
+        "ISCSI_targetPortal": "targetPortal",
+        "ISCSI_lun": 1,
+        "ISCSI_iqn": "iqn",
+        "ISCSI_fsType": "fsType",
+        "ISCSI_chapAuthDiscovery": true,
+        "ISCSI_chapAuthSession": true,
+        "ISCSI_initiatorName": "initiator",
+        "ISCSI_portals": [
+          {
+            "ISCSI_PORTALS_portal": "192.168.1.101:3260"
+          }
+        ],
+        "ISCSI_readOnly": true,
+        "ISCSI_secretRef": true,
+        "ISCSI_SECRETREF_name": "name-secret"
+      },
+      {
+        "VOLUMES_name": "photonPersistentDisk-volume",
+        "VOLUMES_type": true,
+        "photonPersistentDisk": true,
+        "PHOTONPERSISTENTDISK_pdID": "pdID",
+        "PHOTONPERSISTENTDISK_fsType": "fsType"
+      },
+      {
+        "VOLUMES_name": "quobyte-volume",
+        "VOLUMES_type": true,
+        "quobyte": true,
+        "QUOBYTE_registry": "registry",
+        "QUOBYTE_volume": "volume",
+        "QUOBYTE_group": "group",
+        "QUOBYTE_readOnly": true,
+        "QUOBYTE_tenant": "tenant",
+        "QUOBYTE_user": "user"
+      },
+      {
+        "VOLUMES_name": "rbd-volume",
+        "VOLUMES_type": true,
+        "rbd": true,
+        "RBD_image": "image",
+        "RBD_monitors": [
+          {
+            "RBD_MONITORS_monitor": "192.168.1.102:6789"
+          }
+        ],
+        "RBD_pool": "pool",
+        "RBD_fsType": "fsType",
+        "RBD_readOnly": true,
+        "RBD_secretRef": true,
+        "RBD_SECRETREF_name": "name-secret",
+        "RBD_keyring": "keyring",
+        "RBD_user": "user"
+      },
+      {
+        "VOLUMES_name": "scaleIO-volume",
+        "VOLUMES_type": true,
+        "scaleIO": true,
+        "SCALEIO_gateway": "gateway",
+        "SCALEIO_volumeName": "volumeName",
+        "SCALEIO_system": "system",
+        "SCALEIO_protectionDomain": "protectionDomain",
+        "SCALEIO_fsType": "fsType",
+        "SCALEIO_readOnly": true,
+        "SCALEIO_secretRef": true,
+        "SCALEIO_SECRETREF_name": "name-secret",
+        "SCALEIO_sslEnabled": true,
+        "SCALEIO_storageMode": true,
+        "SCALEIO_STORAGEMODE_thinProvisioned": true,
+        "SCALEIO_storagePool": "storagePool"
+      },
+      {
+        "VOLUMES_name": "storageos-volume",
+        "VOLUMES_type": true,
+        "storageos": true,
+        "STORAGEOS_volumeName": "volumeName",
+        "STORAGEOS_fsType": "fsType",
+        "STORAGEOS_readOnly": true,
+        "secretRef": true,
+        "STORAGEOS_SECRETREF_name": "name-secret"
+      }
+    ]   
+  }  
+} 
