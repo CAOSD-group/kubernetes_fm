@@ -1,0 +1,46 @@
+subsets:
+{%for sub in subsets%}
+
+  - {%if sub.SUBSETS_addresses%}addresses:
+      {%for addr in sub.SUBSETS_addresses%}
+        - {%if addr.ADDRESSES_ip%}ip: {{addr.ADDRESSES_ip}}{%endif%}
+          {%if addr.ADDRESSES_hostname%}hostname: {{addr.ADDRESSES_hostname}}{%endif%}
+          {%if addr.ADDRESSES_nodename%}nodename: {{addr.ADDRESSES_nodename}}{%endif%}
+          {%if addr.ADDRESSES_targetRef%}targetRef:
+            {%if addr.ADDRESSES_TARGETREF_apiVersion%}apiVersion: {{addr.ADDRESSES_TARGETREF_apiVersion}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_fieldPath%}fieldPath: {{addr.ADDRESSES_TARGETREF_fieldPath}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_kind%}kind: {{addr.ADDRESSES_TARGETREF_kind}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_name%}name: {{addr.ADDRESSES_TARGETREF_name}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_namespace%}namespace: {{addr.ADDRESSES_TARGETREF_namespace}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_resourceVersion%}resourceVersion: {{addr.ADDRESSES_TARGETREF_resourceVersion}}{%endif%}
+            {%if addr.ADDRESSES_TARGETREF_uid%}uid: {{addr.ADDRESSES_TARGETREF_uid}}{%endif%}
+          {%endif%}
+      {%endfor%}
+    {%endif%}
+
+    {%if sub.SUBSETS_notReadyAddresses%}notReadyAddresses:
+      {%for notaddr in sub.SUBSETS_notReadyAddresses%}
+      - {%if notaddr.NOTREADYADDRESSES_ip%}ip: {{notaddr.NOTREADYADDRESSES_ip}}{%endif%}
+        {%if notaddr.NOTREADYADDRESSES_hostname%}hostname: {{notaddr.NOTREADYADDRESSES_hostname}}{%endif%}
+        {%if notaddr.NOTREADYADDRESSES_nodename%}nodename: {{notaddr.NOTREADYADDRESSES_nodename}}{%endif%}
+        {%if notaddr.NOTREADYADDRESSES_targetRef%}targetRef:
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_apiVersion%}apiVersion: {{notaddr.NOTREADYADDRESSES_TARGETREF_apiVersion}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_fieldPath%}fieldPath: {{notaddr.NOTREADYADDRESSES_TARGETREF_fieldPath}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_kind%}kind: {{notaddr.NOTREADYADDRESSES_TARGETREF_kind}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_name%}name: {{notaddr.NOTREADYADDRESSES_TARGETREF_name}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_namespace%}namespace: {{notaddr.NOTREADYADDRESSES_TARGETREF_namespace}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_resourceVersion%}resourceVersion: {{notaddr.NOTREADYADDRESSES_TARGETREF_resourceVersion}}{%endif%}
+          {%if notaddr.NOTREADYADDRESSES_TARGETREF_uid%}uid: {{notaddr.NOTREADYADDRESSES_TARGETREF_uid}}{%endif%}
+        {%endif%}
+      {%endfor%}
+    {%endif%}
+
+    {%if sub.SUBSETS_ports%}ports:
+      {%for p in sub.SUBSETS_ports%}
+        - port: {{p.SUBSETS_PORTS_port}}
+          {%if p.SUBSETS_PORTS_name%}name: {{p.SUBSETS_PORTS_name}}{%endif%}
+          {%if p.SUBSETS_PORTS_protocol%}protocol: {{p.SUBSETS_PORTS_UDP}}{{p.SUBSETS_PORTS_TCP}}{{p.SUBSETS_PORTS_SCTP}}{%endif%}
+      {%endfor%}
+    {%endif%}
+
+{%endfor%}

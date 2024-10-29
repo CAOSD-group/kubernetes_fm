@@ -1,0 +1,45 @@
+{%if CUSTOMRESOURCEDEFINITIONSPEC_group%}group: {{CUSTOMRESOURCEDEFINITIONSPEC_group}}{%endif%}
+
+{%if CUSTOMRESOURCEDEFINITIONSPEC_scope%}scope: {{CUSTOMRESOURCEDEFINITIONSPEC_SCOPE_Cluster}}{{CUSTOMRESOURCEDEFINITIONSPEC_SCOPE_Namespaced}}{%endif%}
+
+{%if CUSTOMRESOURCEDEFINITIONSPEC_versions%}versions:
+{%for v in CUSTOMRESOURCEDEFINITIONSPEC_versions%}
+
+  - name: {{v.VERSIONS_name}}
+  {%if v.VERSIONS_served%}served: {{v.VERSIONS_served}}{%endif%}
+
+  {%if v.VERSIONS_storage%}storage: {{v.VERSIONS_storage}}{%endif%}
+
+  {%if v.VERSIONS_subresources%}subresources:
+  {%for sub in v.VERSIONS_subresources%}
+    {%if sub.SUBRESOURCES_status%}status: {{sub.SUBRESOURCES_status}}{%endif%}
+    {%if sub.SUBRESOURCES_scale%}scale: {{sub.SUBRESOURCES_scale}}{%endif%}
+  {%endfor%}
+  {%endif%}
+
+  {%if v.VERSIONS_schema%}schema:
+  {%for sch in v.VERSIONS_schema%}
+    openAPIV3Schema:
+      {%if sch.OPENAPIV3SCHEMA_type%}type: {{sch.OPENAPIV3SCHEMA_type}}{%endif%}
+      {%if sch.OPENAPIV3SCHEMA_properties%}properties: {%endif%}
+      {%if sch.OPENAPIV3SCHEMA_description%}description: {{sch.OPENAPIV3SCHEMA_description}}{%endif%}
+      {%if sch.OPENAPIV3SCHEMA_required%}required: {{sch.OPENAPIV3SCHEMA_required}}{%endif%}
+  {%endfor%}
+  {%endif%}
+
+  {%if v.VERSIONS_additionalPrinterColumns%}additionalPrinterColumns:
+  {%for addit in v.VERSIONS_additionalPrinterColumns%}
+    - name: {{addit.ADDITIONALPRINTERCOLUMNS_name}}
+      {%if addit.ADDITIONALPRINTERCOLUMNS_type%}type: {{addit.ADDITIONALPRINTERCOLUMNS_type}}{%endif%}
+      {%if addit.ADDITIONALPRINTERCOLUMNS_JSONPath%}JSONPath: {{addit.ADDITIONALPRINTERCOLUMNS_JSONPath}}{%endif%}
+      {%if addit.description%}description: {{addit.ADDITIONALPRINTERCOLUMNS_description}}{%endif%}
+      {%if addit.ADDITIONALPRINTERCOLUMNS_priority%}priority: {{addit.ADDITIONALPRINTERCOLUMNS_priority}}{%endif%}
+      {%if addit.ADDITIONALPRINTERCOLUMNS_format%}format: {{addit.ADDITIONALPRINTERCOLUMNS_format}}{%endif%}
+  {%endfor%}
+  {%endif%}
+  
+{%endfor%} 
+{%endif%}
+
+
+

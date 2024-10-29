@@ -1,0 +1,62 @@
+
+
+{%if not SERVICESPEC_allocateLoadBalancerNodePorts%}allocateLoadBalancerNodePorts: false{%endif%}
+
+{%if SERVICESPEC_clusterIP%}clusterIP: {{CLUSTERIP_emptyString}}{{CLUSTERIP_none}}{{CLUSTERIP_IP}}{%endif%}
+
+{%if SERVICESPEC_clusterIPs%}clusterIPs:
+{%for ip in SERVICESPEC_clusterIPs%}
+  - {{ip.CLUSTERIPS_none}}{{ip.CLUSTERIPS_emptyString}}{{ip.CLUSTERIPS_IPs}}
+{%endfor%}
+{%endif%}
+
+{%if SERVICESPEC_externalIPs%}externalIPs:
+{%for ex in SERVICESPEC_externalIPs%}
+  - {{ex.SERVICESPEC_EXTERNALIPS_ip}}
+{%endfor%}
+{%endif%}
+
+{%if SERVICESPEC_externalTrafficPolicy%}externalTrafficPolicy: {{EXTERNALTRAFFICPOLICY_Local}}{{EXTERNALTRAFFICPOLICY_Cluster}}{%endif%}
+
+{%if SERVICESPEC_healthCheckNodePort%}healthCheckNodePort: {{SERVICESPEC_healthCheckNodePort}}{%endif%}
+
+{%if SERVICESPEC_internalTrafficPolicy%}internalTrafficPolicy: {{INTERNALTRAFFICPOLICY_Local}}{{INTERNALTRAFFICPOLICY_Cluster}}{%endif%}
+
+{%if SERVICESPEC_ipFamilies%}ipFamilies: 
+  {%if IPFAMILIES_IPv4%}- {{IPFAMILIES_IPv4}}{%endif%}
+  {%if IPFAMILIES_IPv6%}- {{IPFAMILIES_IPv6}}{%endif%}
+{%endif%}
+
+{%if SERVICESPEC_ipFamilyPolicy%}ipFamilyPolicy: {{SingleStack}}{{PreferDualStack}}{{RequireDualStack}}{%endif%}
+
+{%if SERVICESPEC_loadBalancerClass%}loadBalancerClass: {{SERVICESPEC_loadBalancerClass}}{%endif%}
+
+{%if SERVICESPEC_Ports%}ports:
+{%for p in SERVICESPEC_Ports%}
+  - port: {{p.SERVICESPEC_PORTS_port}}
+    {%if p.SERVICESPEC_PORTS_name%}name: {{p.SERVICESPEC_PORTS_name}}{%endif%}
+    {%if p.SERVICESPEC_PORTS_protocol%}protocol: {{p.PORTS_PROTOCOL_tcp}}{{p.PORTS_PROTOCOL_udp}}{{p.PORTS_PROTOCOL_sctp}}{%endif%}
+    {%if p.SERVICESPEC_PORTS_nodePort%}nodePort: {{p.SERVICESPEC_PORTS_nodePort}}{%endif%}
+    {%if p.SERVICESPEC_PORTS_targetPort%}targetPort: {{p.SERVICESPEC_PORTS_targetPort}}{%endif%}
+    {%if p.SERVICESPEC_PORTS_appProtocol%}appProtocol: {{p.SERVICESPEC_PORTS_appProtocol}}{%endif%}
+{%endfor%}
+{%endif%}
+
+{%if SERVICESPEC_publishNotReadyAddresses%}publishNotReadyAddresses: true{%endif%}
+
+{%if SERVICESPEC_Selector%}selector:
+{%for s in SERVICESPEC_Selector%}
+  {{s.SELECTOR_key}}: {{s.SELECTOR_value}}
+{%endfor%}
+{%endif%}
+
+{%if SERVICESPEC_sessionAffinity%}sessionAffinity: {{SESSIONAFFINITY_clientIP}}{{SESSIONAFFINITY_none}}{%endif%}
+
+{%if SERVICESPEC_sessionAffinityConfig%}sessionAffinityConfig: 
+  clientIP:
+    timeoutSeconds: {{CLIENTIP_timeoutSeconds}}
+{%endif%}
+
+{%if SERVICESPEC_trafficDistribution%}trafficDistribution: {{SERVICESPEC_trafficDistribution}}{%endif%}
+
+{%if SERVICESPEC_Type%}Type: {{TYPE_ExternalName}}{{TYPE_ClusterIP}}{{TYPE_NodePort}}{{TYPE_LoadBalancer}}{%endif%}

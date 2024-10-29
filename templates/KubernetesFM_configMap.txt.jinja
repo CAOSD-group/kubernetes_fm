@@ -1,0 +1,17 @@
+immutable: {%if IMMUTABLE_boolean%}true{%else%}false{%endif%}
+
+binaryData:
+{%for b in binaryData%}
+  {{b.BINARYDATA_binaryFile_name}}: |
+    {{b.BINARYDATA_binaryFile_value}}
+{%endfor%}
+
+
+data:
+{%for d in data%}
+  {%if d.DATA_confSimple%}{{d.CONFSIMPLE_key}}: {{d.CONFSIMPLE_value}}{%endif%}
+  {%if d.DATA_confFile%}{{d.CONFFILE_name}}: |
+    {{d.CONFFILE_value}}
+  {%endif%}
+{%endfor%}
+

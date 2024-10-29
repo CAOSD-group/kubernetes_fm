@@ -1,0 +1,8 @@
+
+{%for r in rules%}
+- apiGoups: [{%for api in r.RULES_apiGroups%}"{{api.RULES_APIGROUPS_value}}",{%endfor%}]
+  {%if r.RULES_resources%}resources: [{%for res in r.RULES_resources%}"{{res.RULES_RESOURCES_value}}"{%endfor%},] {%endif%}
+  {%if r.RULES_nonResourceURLs%}nonResourceURLs: [{%for non in r.RULES_nonResourceURLs%}"{{non.RULES_NONRESOURCEURLS_value}}",{%endfor%}]{%endif%}
+  {%if r.RULES_resourceNames%}resourceNames: [{%for rsc in r.RULES_resourceNames%}"{{rsc.RULES_RESOURCENAMES_value}}",{%endfor%}]{%endif%}
+  {%if r.RULES_verbs%}verbs: [{%for v in r.RULES_verbs%}"{{v.RULES_VERBS_value}}",{%endfor%}] {%endif%}
+{%endfor%}

@@ -1,0 +1,45 @@
+  
+name: {{METADATA_name}}
+
+{%if METADATA_deletionGracePeriodSeconds %}deletionGracePeriodSeconds: {{METADATA_deletionGracePeriodSeconds}} {%endif%}
+
+{%if METADATA_namespace %}namespace: {{METADATA_namespace}} {%endif%}
+
+{%if METADATA_labels%}labels:
+  {%for label in METADATA_labels%}  
+  {{label.LABELS_key}}: {{label.LABELS_value}}
+  {%endfor%}
+{%endif%}
+
+{%if METADATA_annotations%}annotations:
+  {%for annotation in METADATA_annotations%}  
+  {{annotation.ANNOTATIONS_key}}: "{{annotation.ANNOTATIONS_value}}"
+  {%endfor%}
+{%endif%}
+
+{%if METADATA_finalizers%}finalizers: {{METADATA_finalizers}}{%endif%}
+
+{%if METADATA_generateName%}generateName: {{METADATA_generateName}}{%endif%}
+
+{%if METADATA_managedFields%}managedFields:
+  {%for m in METADATA_managedFields%}
+  - apiVersion: {{m.METADATA_MANAGEFIELDS_apiversion}}
+    {%if m.METADATA_MANAGEFIELDS_fieldsType%}fieldsType: {{m.METADATA_MANAGEFIELDS_fieldsType}}{%endif%}
+    {%if m.METADATA_MANAGEFIELDS_fieldsV1%}fieldsV1: {{m.METADATA_MANAGEFIELDS_fieldsV1}}{%endif%}
+    {%if m.METADATA_MANAGEFIELDS_manager%}manager: {{m.METADATA_MANAGEFIELDS_manager}}{%endif%}
+    {%if m.METADATA_MANAGEFIELDS_operation%}operation: "{{m.METADATA_MANAGEFIELDS_OPERATION_apply}}{{m.METADATA_MANAGEFIELDS_OPERATION_update}}"{%endif%}
+    {%if m.METADATA_MANAGEFIELDS_subresource%}subresource: {{m.METADATA_MANAGEFIELDS_subresource}}{%endif%}
+    {%if m.METADATA_MANAGEFIELDS_time%}time: "{{m.METADATA_MANAGEFIELDS_time}}"{%endif%}
+  {%endfor%}
+{%endif%}
+
+{%if METADATA_ownerReferences%}ownerReferences:
+  {%for o in METADATA_ownerReferences%}
+  - apiVersion: {{o.METADATA_OWNERREFERENCES_apiVersion}}
+    kind: {{o.METADATA_OWNERREFERENCES_kind}}
+    name: {{o.METADATA_OWNERREFERENCES_name}}
+    uid: {{o.METADATA_OWNERREFERENCES_uid}}
+    {%if o.METADATA_OWNERREFERENCES_blockOwnerDeletion%}blockOwnerDeletion: {{o.METADATA_OWNERREFERENCES_blockOwnerDeletion}}{%endif%}
+    {%if o.METADATA_OWNERREFERENCES_controller%}controller: {{o.METADATA_OWNERREFERENCES_controller}}{%endif%}
+  {%endfor%}
+{%endif%}

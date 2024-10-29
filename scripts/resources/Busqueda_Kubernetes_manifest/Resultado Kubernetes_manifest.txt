@@ -1,0 +1,1 @@
+Se han analizado 325 repositorios, encontrandose 3695 ficheros .yaml, de los cuales se han descartado 413

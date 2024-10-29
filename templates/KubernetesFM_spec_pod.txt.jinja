@@ -1,0 +1,588 @@
+  
+containers:
+{%for c in PODSPEC_containers%}
+  - name: {{c.CONTAINERS_name}}
+
+    image: {{c.CONTAINERS_image}}
+
+    {%if c.CONTAINERS_args%}args: ["{%for arg in c.CONTAINERS_args%}{{arg.CONTAINERS_ARGS_value}};{%endfor%}"] {%endif%}
+
+    {%if c.CONTAINERS_command%}command: [{%for comm in c.CONTAINERS_command%}"{{comm.CONTAINERS_COMMAND_value}}",{%endfor%}] {%endif%}
+
+    {%if c.CONTAINERS_env%}env: 
+      {%for env in c.CONTAINERS_env%}
+      - name: {{env.CONTAINERS_ENV_name}}
+        {%if env.CONTAINERS_ENV_value%}value: "{{env.CONTAINERS_ENV_value}}"{%endif%}
+
+        {%if env.CONTAINERS_ENV_valueFrom%}valueFrom: {%endif%}
+          {%if env.configMapKeyRef%}configMapKeyRef: 
+            name: {{env.CONFIGMAPKEYREF_name}}
+            key: {{env.CONFIGMAPKEYREF_key}}
+            {%if env.CONFIGMAPKEYREF_optional%}optional: {{env.CONFIGMAPKEYREF_optional}}{%endif%}
+          {%endif%}
+          {%if env.fieldRef%}fieldRef: 
+            fieldPath: {{env.FIELDREF_fieldPath}}
+            {# {%if env.FIELDREF_apiversion%}apiversion: {{env.FIELDREF_apiversion}}{%endif%} #}
+          {%endif%}
+          {%if env.resourceFieldRef%}resourceFieldRef: 
+            containerName: {{env.RESOURCEFIELDREF_containerName}}
+            resource: {{env.RESOURCEFIELDREF_resource}}
+            {%if env.RESOURCEFIELDREF_divisor%}divisor: {{env.RESOURCEFIELDREF_divisor}}{%endif%}
+          {%endif%}
+          {%if env.secretKeyRef%}secretKeyRef: 
+            name: {{env.SECRETKEYREF_key}}
+            key: {{env.SECRETKEYREF_name}}
+            {%if env.SECRETKEYREF_optional%}optional: {{env.SECRETKEYREF_optional}}{%endif%}
+          {%endif%}
+      {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_envFrom%}envFrom:
+      {%for envF in c.CONTAINERS_envFrom%}
+      {%if envF.ENVFROM_configMapRef%}- configMapRef:
+          name: {{envF.CONFIGMAPREF_name}}
+      {%endif%}
+      {%if envF.ENVFROM_secretRef%}- secretRef:
+          name: {{envF.SECRETREF_name}}  
+      {%endif%} 
+      {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_imagePullPolicy%}imagePullPolicy: {{c.IMAGEPULLPOLICY_always}}{{c.IMAGEPULLPOLICY_never}}{{c.IMAGEPULLPOLICY_ifNotPresent}} {%endif%}
+  
+    {%if c.CONTAINERS_lifecycle%}lifecycle: 
+
+      {%if c.LIFECYCLE_postStart%}postStart:
+        {%if c.POSTSTART_exec%}exec:
+          command: [{%for e in c.POSTSTART_exec%}"{{e.POSTSTART_EXEC_command}}",{%endfor%}]
+        {%endif%}
+
+        {%if c.POSTSTART_sleep%}sleep: {{c.POSTSTART_SLEEP_seconds}} {%endif%}
+      
+        {%if c.POSTSTART_httpGet%}httpGet:
+          host: {{c.POSTSTART_HTTPGET_host}}
+          {%if c.POSTSTART_HTTPGET_httpHeaders%}httpHeaders:
+            {%for header in c.POSTSTART_HTTPGET_httpHeaders%}
+            - name: {{header.POSTSTART_HTTPHEADERS_name}}
+              value: {{header.POSTSTART_HTTPHEADERS_value}}
+            {%endfor%}
+          {%endif%}
+          port: {{c.POSTSTART_HTTPGET_port}}
+          {%if c.POSTSTART_HTTPGET_path%}path: {{c.POSTSTART_HTTPGET_path}}{%endif%}
+          {%if c.POSTSTART_HTTPGET_scheme%}scheme: {{c.POSTSTART_HTTPGET_scheme}}{%endif%}
+        {%endif%}
+      {%endif%}
+
+      {%if c.LIFECYCLE_preStop%}preStop:
+        {%if c.PRESTOP_exec%}exec:
+          command: [{%for e in c.PRESTOP_exec%}"{{e.PRESTOP_EXEC_command}}",{%endfor%}]
+        {%endif%}
+
+        {%if c.PRESTOP_sleep%}sleep: {{c.PRESTOP_SLEEP_seconds}} {%endif%}
+      
+        {%if c.PRESTOP_httpGet%}httpGet:
+          host: {{c.PRESTOP_HTTPGET_host}}
+          {%if c.PRESTOP_HTTPGET_httpHeaders%}httpHeaders:
+            {%for header in c.PRESTOP_HTTPGET_httpHeaders%}
+            - name: {{header.PRESTOP_HTTPHEADERS_name}}
+              value: {{header.PRESTOP_HTTPHEADERS_value}}
+            {%endfor%}
+          {%endif%}
+          port: {{c.PRESTOP_HTTPGET_port}}
+          {%if c.PRESTOP_HTTPGET_path%}path: {{c.PRESTOP_HTTPGET_path}}{%endif%}
+          {%if c.PRESTOP_HTTPGET_scheme%}scheme: {{c.PRESTOP_HTTPGET_scheme}}{%endif%}
+        {%endif%}
+      {%endif%}
+
+    {%if c.CONTAINERS_livenessProbe%}livenessProbe:
+      {%if c.LIVENESSPROBE_exec%}exec:
+        command: [{%for exec in c.LIVENESSPROBE_exec%}"{{exec.LIVENESSPROBE_EXEC_command}}",{%endfor%}]
+      {%endif%}
+      {%if c.LIVENESSPROBE_failureThreshold%}failureThreshold: {{c.LIVENESSPROBE_failureThreshold}} {%endif%}
+      {%if c.LIVENESSPROBE_grpc%}grpc: 
+        port: {{c.LIVENESSPROBE_GRPC_port}} 
+        {%if c.LIVENESSPROBE_GRPC_service%}service: {{c.LIVENESSPROBE_GRPC_service}}{%endif%}
+      {%endif%}
+
+      {%if c.LIVENESSPROBE_httpGet%}httpGet:
+        host: {{c.LIVENESSPROBE_HTTPGET_host}}
+        {%if c.LIVENESSPROBE_HTTPGET_httpHeaders%}httpHeaders:
+          {%for header in c.LIVENESSPROBE_HTTPGET_httpHeaders%}
+          - name: {{header.LIVENESSPROBE_HTTPHEADERS_name}}
+            value: {{header.LIVENESSPROBE_HTTPHEADERS_value}}
+          {%endfor%}
+        {%endif%}
+        port: {{c.LIVENESSPROBE_HTTPGET_port}}
+        {%if c.LIVENESSPROBE_HTTPGET_path%}path: {{c.LIVENESSPROBE_HTTPGET_path}}{%endif%}
+        {%if c.LIVENESSPROBE_HTTPGET_scheme%}scheme: {{c.LIVENESSPROBE_HTTPGET_scheme}}{%endif%}
+      {%endif%}
+
+      {%if c.LIVENESSPROBE_initialDelaySeconds%}initialDelaySeconds: {{c.LIVENESSPROBE_initialDelaySeconds}}{%endif%}
+      {%if c.LIVENESSPROBE_periodSeconds%}periodSeconds: {{c.LIVENESSPROBE_periodSeconds}}{%endif%}
+      {%if c.LIVENESSPROBE_successThreshold%}successThreshold: {{c.LIVENESSPROBE_successThreshold}}{%endif%}
+      {%if c.LIVENESSPROBE_timeoutSeconds%}timeoutSeconds: {{c.LIVENESSPROBE_timeoutSeconds}}{%endif%}
+
+      {%if c.LIVENESSPROBE_tcpSocket%}tcpSocket:
+        port: {{c.LIVENESSPROBE_TCPSOCKET_port}}
+        {%if c.LIVENESSPROBE_TCPSOCKET_host%}host: "{{c.LIVENESSPROBE_TCPSOCKET_host}}"{%endif%}
+      {%endif%}
+      {%if c.LIVENESSPROBE_terminationGracePeriodSeconds%}terminationGracePeriodSeconds: {{c.LIVENESSPROBE_terminationGracePeriodSeconds}}{%endif%}
+    {%endif%}
+
+    {%if c.CONTAINERS_ports%}ports: 
+    {%for p in c.CONTAINERS_ports%} 
+      - containerPort: {{p.CONTAINERS_PORTS_containerPort}}
+        {%if p.CONTAINERS_PORTS_name%}name: {{p.CONTAINERS_PORTS_name}}{%endif%}
+        {%if p.CONTAINERS_PORTS_hostIP%}hostIP: {{p.CONTAINERS_PORTS_hostIP}}{%endif%}
+        {%if p.CONTAINERS_PORTS_hostPort%}hostPort: {{p.CONTAINERS_PORTS_hostPort}}{%endif%}
+        {%if p.CONTAINERS_PORTS_protocol%}protocol: {{p.PROTOCOL_UDP}}{{PROTOCOL_TCP}}{{PROTOCOL_SCTP}}{%endif%}
+    {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_readinessProbe%}readinessProbe:
+      {%if c.READINESSPROBE_exec%}exec:
+        command: [{%for exec in c.READINESSPROBE_exec%}"{{exec.READINESSPROBE_EXEC_command}}",{%endfor%}]
+      {%endif%}
+      {%if c.READINESSPROBE_failureThreshold%}failureThreshold: {{c.READINESSPROBE_failureThreshold}} {%endif%}
+      {%if c.READINESSPROBE_grpc%}grpc: 
+        port: {{c.READINESSPROBE_GRPC_port}} 
+        {%if c.READINESSPROBE_GRPC_service%}service: {{c.READINESSPROBE_GRPC_service}}{%endif%}
+      {%endif%}
+
+      {%if c.READINESSPROBE_httpGet%}httpGet:
+        host: {{c.READINESSPROBE_HTTPGET_host}}
+        {%if c.READINESSPROBE_HTTPGET_httpHeaders%}httpHeaders:
+          {%for header in c.READINESSPROBE_HTTPGET_httpHeaders%}
+          - name: {{header.READINESSPROBE_HTTPHEADERS_name}}
+            value: {{header.READINESSPROBE_HTTPHEADERS_value}}
+          {%endfor%}
+        {%endif%}
+        port: {{c.READINESSPROBE_HTTPGET_port}}
+        {%if c.READINESSPROBE_HTTPGET_path%}path: {{c.READINESSPROBE_HTTPGET_path}}{%endif%}
+        {%if c.READINESSPROBE_HTTPGET_scheme%}scheme: {{c.READINESSPROBE_HTTPGET_scheme}}{%endif%}
+      {%endif%}
+
+      {%if c.READINESSPROBE_initialDelaySeconds%}initialDelaySeconds: {{c.READINESSPROBE_initialDelaySeconds}}{%endif%}
+      {%if c.READINESSPROBE_periodSeconds%}periodSeconds: {{c.READINESSPROBE_periodSeconds}}{%endif%}
+      {%if c.READINESSPROBE_successThreshold%}successThreshold: {{c.READINESSPROBE_successThreshold}}{%endif%}
+      {%if c.READINESSPROBE_timeoutSeconds%}timeoutSeconds: {{c.READINESSPROBE_timeoutSeconds}}{%endif%}
+
+      {%if c.READINESSPROBE_tcpSocket%}tcpSocket:
+        port: {{c.READINESSPROBE_TCPSOCKET_port}}
+        {%if c.READINESSPROBE_TCPSOCKET_host%}host: "{{c.READINESSPROBE_TCPSOCKET_host}}"{%endif%}
+      {%endif%}
+      {%if c.READINESSPROBE_terminationGracePeriodSeconds%}terminationGracePeriodSeconds: {{c.READINESSPROBE_terminationGracePeriodSeconds}}{%endif%}
+    {%endif%}
+
+    {%if c.CONTAINERS_resizePolicy%}resizePolicy:
+    {%for res in c.CONTAINERS_resizePolicy%}
+      - resourceName: {{res.CONTAINERS_RESIZEPOLICY_RESTARTPOLICY_cpu}}{{res.CONTAINERS_RESIZEPOLICY_RESTARTPOLICY_memory}}
+        restartPolicy: {{res.RESIZEPOLICY_restartPolicy}}
+    {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_restartPolicy%}restartPolicy: {{c.CONTAINERS_restartPolicy}}{%endif%}
+
+    {%if c.CONTAINERS_resources%}resources:
+      {%if c. RESOURCES_request%}request:
+        cpu: {{c.REQUESTS_cpu}}
+        memory: {{c.REQUESTS_memory}}
+      {%endif%}
+      {%if c. RESOURCES_limits%}limits:
+        cpu: {{c.LIMITS_cpu}}
+        memory: {{c.LIMITS_memory}}
+      {%endif%}
+      {%if c.RESOURCES_claims%}claims:
+        {#Este campo está en beta en la version de kubernetes 1.30#}
+        - name: {{c.RESOURCES_CLAIMS_name}}
+      {%endif%}
+    {%endif%}
+
+
+    {%if c.CONTAINERS_securityContext %}securityContext:
+      {%if c.CONTAINERS_SECURITYCONTEXT_allowPrivilegeEscalation%}allowPrivilegeEscalation: {{c.CONTAINERS_SECURITYCONTEXT_allowPrivilegeEscalation}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_privileged%}privileged: {{c.CONTAINERS_SECURITYCONTEXT_privileged}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_procMount%}procMount: {{c.CONTAINERS_SECURITYCONTEXT_procMount}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_readOnlyRootFilesystem%}readOnlyRootFilesystem: {{c.CONTAINERS_SECURITYCONTEXT_readOnlyRootFilesystem}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_runAsGroup%}runAsGroup: {{c.CONTAINERS_SECURITYCONTEXT_runAsGroup}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_runAsNonRoot%}runAsNonRoot: {{c.CONTAINERS_SECURITYCONTEXT_runAsNonRoot}}{%endif%}
+      {%if c.CONTAINERS_SECURITYCONTEXT_runAsUser%}runAsUser: {{c.CONTAINERS_SECURITYCONTEXT_runAsUser}}{%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_appArmorProfile%}appArmorProfile:
+      {%if c.CONTAINERS_APPARMORPROFILE_localhostProfile%}localhostProfile: {{c.CONTAINERS_APPARMORPROFILE_localhostProfile}}{%endif%}
+      {%if c.CONTAINERS_APPARMORPROFILE_type%}{{c.CONTAINERS_APPARMORPROFILE_TYPE_LocalHost}}{{c.CONTAINERS_APPARMORPROFILE_TYPE_RuntimeDefault}}{{c.CONTAINERS_APPARMORPROFILE_TYPE_Unconfined}}{%endif%}
+      {%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_capabilities%}capabilities:
+        {%if c.CONTAINERS_CAPABILITIES_add%}add:
+          {%for add in c.CONTAINERS_CAPABILITIES_add%}- {{add.CONTAINERS_addedCapabilities}}{%endfor%}
+        {%endif%}
+        {%if c.CONTAINERS_CAPABILITIES_drop%}drop:
+          {%for drop in c.CONTAINERS_CAPABILITIES_drop%}- {{drop.CONTAINERS_removedCapabilities}}{%endfor%}
+        {%endif%}
+      {%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_seLinuxOptions%}seLinuxOptions: 
+        {%if c.CONTAINERS_SELINUXOPTIONS_user%}user: "{{c.CONTAINERS_SELINUXOPTIONS_user}}"{%endif%}
+        {%if c.CONTAINERS_SELINUXOPTIONS_role%}role: "{{c.CONTAINERS_SELINUXOPTIONS_role}}" {%endif%}
+        {%if c.CONTAINERS_SELINUXOPTIONS_type%}type: "{{c.CONTAINERS_SELINUXOPTIONS_type}}"{%endif%}
+        {%if c.CONTAINERS_SELINUXOPTIONS_level%}level: "{{c.CONTAINERS_SELINUXOPTIONS_level}}" {%endif%}
+      {%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_seccompProfile%}seccompProfile:
+        {%if c.CONTAINERS_SECCOMPROFILE_localhostProfile%}localhostProfile: {{c.CONTAINERS_SECCOMPROFILE_localhostProfile}} {%endif%}
+        {%if c.CONTAINERS_SECCOMPROFILE_type%}type: {{c.CONTAINERS_SECCOMPROFILE_Type_LocalHost}}{{c.CONTAINERS_SECCOMPROFILE_Type_RuntimeDefault}}{{c.CONTAINERS_SECCOMPROFILE_Type_Unconfined}} {%endif%}
+      {%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_windowsOptions%}windowsOptions:
+        {%if c.CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpec%}gmsaCredentialSpec: {{c.CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpec}} {%endif%}
+        {%if c.CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpecName%}gmsaCredentialSpecName: "{{c.CONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpecName}}" {%endif%}
+        {%if c.CONTAINERS_WINDOWSOPTIONS_hostProcess%}hostProcess: true {%endif%}
+        {%if c.CONTAINERS_WINDOWSOPTIONS_runAsUserName%}runAsUserName: "{{c.CONTAINERS_WINDOWSOPTIONS_runAsUserName}}" {%endif%}
+      {%endif%}
+
+    {%endif%}
+
+    {%if c.CONTAINERS_startupProbe%}startUpProbe:
+      {%if c.STARTUPPROBE_exec%}exec:
+        command: [{%for exec in c.STARTUPPROBE_exec%}"{{exec.STARTUPPROBE_EXEC_command}}",{%endfor%}]
+      {%endif%}
+      {%if c.STARTUPPROBE_failureThreshold%}failureThreshold: {{c.STARTUPPROBE_failureThreshold}} {%endif%}
+      {%if c.STARTUPPROBE_grpc%}grpc: 
+        port: {{c.STARTUPPROBE_GRPC_port}} 
+        {%if c.STARTUPPROBE_GRPC_service%}service: {{c.STARTUPPROBE_GRPC_service}}{%endif%}
+      {%endif%}
+
+      {%if c.STARTUPPROBE_httpGet%}httpGet:
+        host: {{c.STARTUPPROBE_HTTPGET_host}}
+        {%if c.STARTUPPROBE_HTTPGET_httpHeaders%}httpHeaders:
+          {%for header in c.STARTUPPROBE_HTTPGET_httpHeaders%}
+          - name: {{header.STARTUPPROBE_HTTPHEADERS_name}}
+            value: {{header.STARTUPPROBE_HTTPHEADERS_value}}
+          {%endfor%}
+        {%endif%}
+        port: {{c.STARTUPPROBE_HTTPGET_port}}
+        {%if c.STARTUPPROBE_HTTPGET_path%}path: {{c.STARTUPPROBE_HTTPGET_path}}{%endif%}
+        {%if c.STARTUPPROBE_HTTPGET_scheme%}scheme: {{c.STARTUPPROBE_HTTPGET_scheme}}{%endif%}
+      {%endif%}
+
+      {%if c.STARTUPPROBE_initialDelaySeconds%}initialDelaySeconds: {{c.STARTUPPROBE_initialDelaySeconds}}{%endif%}
+      {%if c.STARTUPPROBE_periodSeconds%}periodSeconds: {{c.STARTUPPROBE_periodSeconds}}{%endif%}
+      {%if c.STARTUPPROBE_successThreshold%}successThreshold: {{c.STARTUPPROBE_successThreshold}}{%endif%}
+      {%if c.STARTUPPROBE_timeoutSeconds%}timeoutSeconds: {{c.STARTUPPROBE_timeoutSeconds}}{%endif%}
+
+      {%if c.STARTUPPROBE_tcpSocket%}tcpSocket:
+        port: {{c.STARTUPPROBE_TCPSOCKET_port}}
+        {%if c.STARTUPPROBE_TCPSOCKET_host%}host: "{{c.STARTUPPROBE_TCPSOCKET_host}}"{%endif%}
+      {%endif%}
+      {%if c.STARTUPPROBE_terminationGracePeriodSeconds%}terminationGracePeriodSeconds: {{c.STARTUPPROBE_terminationGracePeriodSeconds}}{%endif%}
+    {%endif%}
+    
+    {%if c.CONTAINERS_stdin%}stdin: {{c.CONTAINERS_stdin}}{%endif%}
+
+    {%if c.CONTAINERS_stdinOnce%}stdinOnce: {{c.CONTAINERS_stdinOnce}}{%endif%}
+
+    {%if c.CONTAINERS_terminationMessagePath%}terminationMessagePath: "{{c.CONTAINERS_terminationMessagePath}}"{%endif%}
+
+    {%if c.CONTAINERS_terminationMessagePolicy%}terminationMessagePolicy: "{{c.CONTAINERS_terminationMessagePolicy}}"{%endif%}
+
+    {%if c.CONTAINERS_tty%}tty: {{c.CONTAINERS_tty}} {%endif%}
+
+    {%if c.CONTAINERS_volumeDevices%}VolumeDevices:
+      {%for dev in c.CONTAINERS_volumeDevices%}
+      - name: {{dev.VOLUMEDEVICES_name}}
+        devicePath: {{dev.VOLUMEDEVICES_devicePath}}
+      {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_volumeMounts%}volumeMounts:
+      {%for dev in c.CONTAINERS_volumeMounts%}
+      - name: {{dev.VOLUMEMOUNTS_name}}
+        mountPath: {{dev.VOLUMEMOUNTS_mountPath}}
+        {%if dev.VOLUMEMOUNTS_readonly%}readonly: {{dev.VOLUMEMOUNTS_readonly}}{%endif%}
+        {%if dev.VOLUMEMOUNTS_mountPropagation%}mountPropagation: {{dev.VOLUMEMOUNTS_mountPropagation}}{%endif%}
+        {%if dev.VOLUMEMOUNTS_recursiveReadOnly%}recursiveReadOnly: {{dev.VOLUMEMOUNTS_recursiveReadOnly}}{%endif%}
+        {%if dev.VOLUMEMOUNTS_subPath%}subPath: {{dev.VOLUMEMOUNTS_subPath}}{%endif%}
+        {%if dev.VOLUMEMOUNTS_subPathExpr%}subPathExpr: {{dev.VOLUMEMOUNTS_subPathExpr}}{%endif%}
+      {%endfor%}
+    {%endif%}
+
+    {%if c.CONTAINERS_workingDir%}workingDir: {{c.CONTAINERS_workingDir}}{%endif%}
+
+    {%endif%}
+
+{%endfor%}
+
+{%if PODSPEC_serviceAccountName%}serviceAccountName: {{PODSPEC_serviceAccountName}}{%endif%}
+
+{%if PODSPEC_initContainers%}initContainers:
+  {%for init in PODSPEC_initContainers%}
+  - name: {{init.INITCONTAINERS_name}}
+    {%if init.INITCONTAINERS_image%}image: {{init.INITCONTAINERS_image}}{%endif%}
+
+    {%if init.INITCONTAINERS_securityContext %}securityContext:
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_allowPrivilegeEscalation%}allowPrivilegeEscalation: {{init.INITCONTAINERS_SECURITYCONTEXT_allowPrivilegeEscalation}}{%endif%}
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_privileged%}privileged: {{init.INITCONTAINERS_SECURITYCONTEXT_privileged}}{%endif%}
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_procMount%}procMount: {{init.INITCONTAINERS_SECURITYCONTEXT_procMount}}{%endif%}
+      {%if initc.INITCONTAINERS_SECURITYCONTEXT_readOnlyRootFilesystem%}readOnlyRootFilesystem: {{init.INITCONTAINERS_SECURITYCONTEXT_readOnlyRootFilesystem}}{%endif%}
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_runAsGroup%}runAsGroup: {{init.INITCONTAINERS_SECURITYCONTEXT_runAsGroup}}{%endif%}
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_runAsNonRoot%}runAsNonRoot: {{init.INITCONTAINERS_SECURITYCONTEXT_runAsNonRoot}}{%endif%}
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_runAsUser%}runAsUser: {{init.INITCONTAINERS_SECURITYCONTEXT_runAsUser}}{%endif%}
+
+      {%if c.CONTAINERS_SECURITYCONTEXT_appArmorProfile%}appArmorProfile:
+      {%if c.CONTAINERS_APPARMORPROFILE_localhostProfile%}localhostProfile: {{c.CONTAINERS_APPARMORPROFILE_localhostProfile}}{%endif%}
+      {%if c.CONTAINERS_APPARMORPROFILE_type%}{{c.CONTAINERS_APPARMORPROFILE_TYPE_LocalHost}}{{c.CONTAINERS_APPARMORPROFILE_TYPE_RuntimeDefault}}{{c.CONTAINERS_APPARMORPROFILE_TYPE_Unconfined}}{%endif%}
+      {%endif%}
+
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_capabilities%}capabilities:
+        {%if init.INITCONTAINERS_CAPABILITIES_add%}add:
+          {%for add in init.INITCONTAINERS_CAPABILITIES_add%}- {{add.INITCONTAINERS_addedCapabilities}}{%endfor%}
+        {%endif%}
+        {%if init.INITCONTAINERS_CAPABILITIES_drop%}drop:
+          {%for drop in init.INITCONTAINERS_CAPABILITIES_drop%}- {{drop.INITCONTAINERS_removedCapabilities}}{%endfor%}
+        {%endif%}
+      {%endif%}
+
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_seLinuxOptions%}seLinuxOptions: 
+        {%if init.INITCONTAINERS_SELINUXOPTIONS_user%}user: "{{init.INITCONTAINERS_SELINUXOPTIONS_user}}"{%endif%}
+        {%if init.INITCONTAINERS_SELINUXOPTIONS_role%}role: "{{init.INITCONTAINERS_SELINUXOPTIONS_role}}" {%endif%}
+        {%if c.INITCONTAINERS_SELINUXOPTIONS_type%}type: "{{init.INITCONTAINERS_SELINUXOPTIONS_type}}"{%endif%}
+        {%if init.INITCONTAINERS_SELINUXOPTIONS_level%}level: "{{init.INITCONTAINERS_SELINUXOPTIONS_level}}" {%endif%}
+      {%endif%}
+
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_seccompProfile%}seccompProfile:
+        {%if init.INITCONTAINERS_SECCOMPROFILE_localhostProfile%}localhostProfile: {{init.INITCONTAINERS_SECCOMPROFILE_localhostProfile}} {%endif%}
+        {%if init.INITCONTAINERS_SECCOMPROFILE_type%}type: {{init.INITCONTAINERS_SECCOMPROFILE_Type_LocalHost}}{{init.INITCONTAINERS_SECCOMPROFILE_Type_RuntimeDefault}}{{init.INITCONTAINERS_SECCOMPROFILE_Type_Unconfined}} {%endif%}
+      {%endif%}
+
+      {%if init.INITCONTAINERS_SECURITYCONTEXT_windowsOptions%}windowsOptions:
+        {%if init.INITCONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpec%}gmsaCredentialSpec: {{init.INITCONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpec}} {%endif%}
+        {%if init.INITCONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpecName%}gmsaCredentialSpecName: "{{init.INITCONTAINERS_WINDOWSOPTIONS_gmsaCredentialSpecName}}" {%endif%}
+        {%if init.INITCONTAINERS_WINDOWSOPTIONS_hostProcess%}hostProcess: true {%endif%}
+        {%if init.INITCONTAINERS_WINDOWSOPTIONS_runAsUserName%}runAsUserName: "{{init.INITCONTAINERS_WINDOWSOPTIONS_runAsUserName}}" {%endif%}
+      {%endif%}
+
+    {%endif%}
+
+  {%endfor%}
+{%endif%}
+
+{%if PODSPEC_activeDeadlineSeconds%}activeDeadlineSeconds: {{PODSPEC_activeDeadlineSeconds}}{%endif%}
+
+{%if PODSPEC_affinity%}affinity:
+  {%if AFFINITY_nodeAffinity%}nodeAffinity: {%endif%}
+  {%if AFFINITY_podAffinity%}podAffinity: {%endif%}
+  {%if AFFINITY_podAntiAffinity%}podAntiAffinity: {%endif%}
+{%endif%}
+
+{%if PODSPEC_automountServiceAccountToken%}automountServiceAccountToken: true{%endif%}
+
+{%if PODSPEC_dnsPolicy%}dnsPolicy: {{DNSPOLICY_ClusterFirstWithHostNet}}{{DNSPOLICY_ClusterFirst}}{{DNSPOLICY_Default}}{{DNSPOLICY_None}}{%endif%}
+
+{%if not PODSPEC_enableServiceLinks%}enableServiceLinks: false{%endif%} 
+
+{%if PODSPEC_hostIPC%}hostIPC: true{%endif%}
+
+{%if PODSPEC_hostNetwork%}hostNetwork: true{%endif%}
+
+{%if PODSPEC_hostPID%}hostPID: true{%endif%}
+
+{%if not PODSPEC_hostUsers%}hostUsers: false{%endif%}
+
+{%if PODSPEC_hostname%}hostname: {{PODSPEC_hostname}}{%endif%}
+
+{%if PODSPEC_nodeName%}nodeName: {{PODSPEC_nodeName}}{%endif%}
+
+{%if PODSPEC_Volumes%}volumes: 
+{%for v in PODSPEC_Volumes%}
+  - name: {{v.VOLUMES_name}}
+    {%if v.emptyDir%}emptyDir:
+      {%if v.EMPTYDIR_medium%}medium: {{v.EMPTYDIR_MEDIUM_memory}}{%if v.EMPTYDIR_MEDIUM_default%}""{%endif%}{%endif%}
+      {%if v.EMPTYDIR_sizeLimit%}sizeLimit: {{v.EMPTYDIR_sizeLimit}}{%endif%}
+    {%endif%}
+
+    {%if v.hostPath%}hostPath:
+      {%if v.HOSTPATH_path%}path: "{{v.HOSTPATH_path}}"{%endif%}
+      {%if v.HOSTPATH_type%}type: {{v.HOSTPATH_type}}{%endif%}
+    {%endif%}
+
+    {%if v.persistentVolumeClaim%}persistentVolumeClaim:
+      {%if v.PERSISTENTVOLUMECLAIM_claimName%}claimName: "{{v.PERSISTENTVOLUMECLAIM_claimName}}"{%endif%}
+      {%if v.PERSISTENTVOLUMECLAIM_readOnly%}readOnly: {{v.PERSISTENTVOLUMECLAIM_readOnly}}{%endif%}
+    {%endif%}
+
+    {%if v.secret%}secret:
+      {%if v.SECRET_secretName%}secretName: "{{v.SECRET_secretName}}"{%endif%}
+      {%if v.SECRET_optional%}optional: true{%endif%}
+      {%if v.SECRET_defaultMode%}defaultMode: {{v.SECRET_defaultMode}}{%endif%}
+      {%if v.SECRET_items%}items: 
+      {%for i in v.SECRET_items%}
+        - key: {{i.SECRET_ITEMS_key}}
+          {%if i.SECRET_ITEMS_mode%}mode: {{i.SECRET_ITEMS_mode}}{%endif%}
+          path: {{i.SECRET_ITEMS_path}}
+      {%endfor%}
+      {%endif%}
+    {%endif%}
+
+    {%if v.nfs%}nfs:
+      path: "{{v.NFS_path}}"
+      server: "{{v.NFS_server}}"
+      {%if v.NFS_readOnly%}readOnly: true{%endif%}
+      {%if v.CSI_fsType%}fsType: {{v.CSI_fsType}}{%endif%}
+    {%endif%}
+
+    {%if v.csi%}csi:
+      driver: {{v.CSI_driver}}
+      {%if v.CSI_volumeAttributes%}volumeAttributes: {{v.CSI_volumeAttributes}}{%endif%}
+      {%if v.CSI_readOnly%}CSI_readOnly: true{%endif%}
+      {%if v.CSI_nodePublichSecretRef%}name: {{v.CSI_NODEPUBLISHSECRETREF_name}}{%endif%}
+    {%endif%}
+
+    {%if v.downwardAPI%}downwardAPI:
+      items: 
+      {%for it in v.DOWNWARDAPI_items%}
+        - path: "{{it.DOWNWARDAPI_ITEMS_path}}"
+          fieldRef:
+            apiVersion: {{it.DOWNWARDAPI_ITEMS_FIELDREF_apiVersion}}
+            fieldPath: {{it.DOWNWARDAPI_ITEMS_FIELDREF_fieldPath}}
+          {%if it.DOWNWARDAPI_mode%}mode: {{it.DOWNWARDAPI_mode}} {%endif%}
+          {%if it.DOWNWARDAPI_ITEMS_resourceFieldRef%}resourceFieldRef: 
+            containerName: {{it.DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_containerName}}
+            resource: {{it.DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_resource}}
+            {%if it.DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_divisor%}divisor: {{it.DOWNWARDAPI_ITEMS_RESOURCEFIELDREF_divisor}} {%endif%}
+          {%endif%}
+      {%endfor%}
+      {%if v.DOWNWARDAPI_defaultMode%}defaultMode: {{v.DOWNWARDAPI_defaultMode}}{%endif%}
+    {%endif%}
+
+    {%if v.ephemeral%}ephemeral:
+      volumeClaimTemplate:
+        spec:
+        {%if v.EPHEMERAL_VOLUMECLAIMTEMPLATE_metadata%}metadata:{%endif%}
+    {%endif%}
+
+    {%if v.fc%}fc:
+      {%if v.FC_fsType%}fsType: {{v.FC_fsType}}{%endif%}
+      {%if v.FC_readOnly%}readOnly: true{%endif%}
+      {%if v.FC_lun%}lun: {{v.FC_lun}}{%endif%}
+      {%if v.FC_targetWWNs%}targetWWNs: 
+        {%for tar in v.FC_targetWWNs%}
+          - {{tar.FC_TARGETWWNS_targetWWN}}
+        {%endfor%}
+      {%endif%}
+      {%if v.FC_wwids%}wwids: 
+        {%for ww in v.FC_wwids%}
+          - {{ww.FC_WWIDS_wwid}}
+        {%endfor%}
+      {%endif%}
+    {%endif%}
+
+    {%if v.flocker%}flocker:
+      datsetUUID: {{v.FLOCKER_datsetUUID}}
+      datasetName: {{v.FLOCKER_datasetName}}
+    {%endif%}
+
+    {%if v.iscsi%}iscsi:
+      {%if v.ISCSI_targetPortal%}targetPortal: {{v.ISCSI_targetPortal}} {%endif%}
+      {%if v.ISCSI_lun%}lun: {{v.ISCSI_lun}}{%endif%}
+      {%if v.ISCSI_iqn%}iqn: {{v.ISCSI_iqn}}{%endif%}
+      {%if v.ISCSI_fsType%}fsType: {{v.ISCSI_fsType}}{%endif%}
+      {%if v.ISCSI_chapAuthDiscovery%}chapAuthDiscovery: true{%else%}chapAuthDiscovery: false{%endif%}
+      {%if v.ISCSI_chapAuthSession%}chapAuthSession: true{%else%}chapAuthSession: false{%endif%}
+      {%if v.ISCSI_initiatorName%}initiatorName: {{v.ISCSI_initiatorName}}{%endif%}
+      {%if v.ISCSI_iscsiInterface%}iscsiInterface: {{v.ISCSI_iscsiInterface}}{%endif%}
+      {%if v.ISCSI_portals%}portals: 
+        {%for p in v.ISCSI_portals%}
+        - "{{p.ISCSI_PORTALS_portal}}"
+        {%endfor%}
+      {%endif%}
+      {%if v.ISCSI_readOnly%}readOnly: true{%endif%}
+      {%if v.ISCSI_secretRef%}secretRef: 
+        name: {{v.ISCSI_SECRETREF_name}}
+      {%endif%}
+    {%endif%}
+
+    {%if v.photonPersistentDisk%}photonPersistentDisk:
+      pdID: {{v.PHOTONPERSISTENTDISK_pdID}}
+      {%if v.PHOTONPERSISTENTDISK_fsType%}fsType: {{v.PHOTONPERSISTENTDISK_fsType}}{%endif%}
+    {%endif%}
+
+    {%if v.projected%}projected:
+      defaultmode: {{v.PROJECTED_defaultmode}}
+      {%if v.PROJECTED_sources%}sources:
+        {%for s in v.PROJECTED_sources%}
+        {%if s.PROJECTED_SOURCES_clusterTrustBundle%}clusterTrustBundle: {%endif%}
+        {%if s.PROJECTED_SOURCES_configMap%}configMap: {%endif%}
+        {%if s.PROJECTED_SOURCES_downwardAPI%}downwardAPI: {%endif%}
+        {%if s.PROJECTED_SOURCES_secret%}secret: {%endif%}
+        {%if s.PROJECTED_SOURCES_serviceAccountToken%}serviceAccountToken: {%endif%}
+        {%endfor%}
+      {%endif%}
+    {%endif%}
+
+    {%if v.quobyte%}quobyte:
+      {%if v.QUOBYTE_volume%}volume: {{v.QUOBYTE_volume}}{%endif%}
+      {%if v.QUOBYTE_registry%}registry: {{v.QUOBYTE_registry}}{%endif%}
+      {%if v.QUOBYTE_group%}group: {{v.QUOBYTE_group}}{%endif%}
+      {%if v.QUOBYTE_readOnly%}readOnly: true{%endif%}
+      {%if v.QUOBYTE_tenant%}tenant: {{v.QUOBYTE_tenant}}{%endif%}
+      {%if v.QUOBYTE_user%}user: {{v.QUOBYTE_user}}{%endif%}
+    {%endif%}
+
+    {%if v.rbd%}rbd:
+      {%if v.RBD_image%}image: {{v.RBD_image}}{%endif%}
+      {%if v.RBD_monitors%}monitors: 
+        {%for m in v.RBD_monitors%}
+          - "{{m.RBD_MONITORS_monitor}}"
+        {%endfor%}
+      {%endif%}
+      {%if v.RBD_fsType%}fsType: {{v.RBD_fsType}}{%endif%}
+      {%if v.RBD_readOnly%}readOnly: true{%endif%}
+      {%if v.RBD_secretRef%}secretRef: 
+        name: {{v.RBD_SECRETREF_name}}
+      {%endif%}
+      {%if v.RBD_keyring%}keyring: {{v.RBD_keyring}}{%endif%}
+      {%if v.RBD_user%}user: {{v.RBD_user}}{%endif%}
+    {%endif%}
+
+    {%if v.scaleIO%}scaleIO:
+      {%if v.SCALEIO_gateway%}gateway: {{v.SCALEIO_gateway}}{%endif%}
+      {%if v.SCALEIO_volumeName%}volumeName: {{v.SCALEIO_volumeName}}{%endif%}
+      {%if v.SCALEIO_system%}system: {{v.SCALEIO_system}}{%endif%}
+      {%if v.SCALEIO_protectionDomain%}protectionDomain: {{v.SCALEIO_protectionDomain}}{%endif%}
+      {%if v.SCALEIO_fsType%}fsType: {{v.SCALEIO_fsType}}{%endif%}
+      {%if v.SCALEIO_readOnly%}readOnly: true{%endif%}
+      {%if v.SCALEIO_secretRef%}secretRef: 
+        name: {{v.SCALEIO_SECRETREF_name}}
+      {%endif%}
+      {%if v.SCALEIO_sslEnabled%}sslEnabled: true{%endif%}
+      {%if v.SCALEIO_storageMode%}storageMode: {{v.SCALEIO_STORAGEMODE_thickProvisioned}}{{v.SCALEIO_STORAGEMODE_thinProvisioned}}{%endif%}
+      {%if v.SCALEIO_storagePool%}storagePool: {{vv.SCALEIO_storagePool}}{%endif%}
+    {%endif%}
+
+    {%if v.storageos%}storageos:
+      {%if v.STORAGEOS_volumeName%}volumeName: {{v.STORAGEOS_volumeName}}{%endif%}
+      {%if v.STORAGEOS_fsType%}fsType: {{v.STORAGEOS_fsType}}{%endif%}
+      {%if v.STORAGEOS_readOnly%}readOnly: true{%endif%}
+      {%if v.secretRef%}secretRef:
+        name: {{v.STORAGEOS_SECRETREF_name}}
+      {%endif%}
+    {%endif%}
+
+
+    {%if v.configMap%}configMap:
+      {%if v.CONFIGMAP_name%}name: "{{v.CONFIGMAP_name}}"{%endif%}
+      {%if v.CONFIGMAP_optional%}optional: true{%endif%}
+      {%if v.CONFIGMAP_defaultMode%}defaultMode: {{v.CONFIGMAP_defaultMode}}{%endif%}
+      {%if v.CONFIGMAP_items%}items: 
+      {%for i in v.CONFIGMAP_items%}
+        - key: {{i.CONFIGMAP_ITEMS_key}}
+          {%if i.CONFIGMAP_ITEMS_mode%}mode: {{i.CONFIGMAP_ITEMS_mode}}{%endif%}
+          path: {{i.CONFIGMAP_ITEMS_path}}
+      {%endfor%}
+      {%endif%}
+    {%endif%}
+
+{%endfor%}
+{%endif%}
+

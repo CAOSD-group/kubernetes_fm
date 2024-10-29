@@ -1,0 +1,98 @@
+  
+{%if DEPLOYMENTSPEC_minReadySeconds%}minReadySeconds: {{DEPLOYMENTSPEC_minReadySeconds}}{%endif%}
+
+{%if DEPLOYMENTSPEC_paused%}paused: {{DEPLOYMENTSPEC_paused}}{%endif%}
+
+{%if DEPLOYMENTSPEC_progressDeadlineSeconds%}progressDeadlineSeconds: {{DEPLOYMENTSPEC_progressDeadlineSeconds}}{%endif%}
+
+{%if DEPLOYMENTSPEC_replicas%}Replicas: {{DEPLOYMENTSPEC_replicas}}{%endif%}
+
+{%if DEPLOYMENTSPEC_revisionHistoryLimit%}revisionHistoryLimit: {{DEPLOYMENTSPEC_revisionHistoryLimit}}{%endif%}
+
+{%if DEPLOYMENTSPEC_selector%}selector:
+
+  {%if SELECTOR_matchLabels%}matchLabels:
+    {%for matchlabel in SELECTOR_matchLabels%}  
+    {{matchlabel.MATCHLABELS_key}}: {{matchlabel.MATCHLABELS_value}}
+    {%endfor%}
+  {%endif%}
+
+  {%if SELECTOR_matchExpressions%}matchExpressions:
+    {%for matchExpressions in SELECTOR_matchExpressions%}  
+    - key: {{matchExpressions.MATCHEXPRESSIONS_key}}
+      operator: {{matchExpressions.OPERATOR_in}}{{matchExpressions.OPERATOR_notIn}}{{matchExpressions.OPERATOR_exist}}{{matchExpressions.OPERATOR_doesNotExist}}{{matchExpressions.OPERATOR_gt}}{{OPERATOR_lt}}
+    {%if matchExpressions.MATCHEXPRESSIONS_values%}  values:
+    {%for value in matchExpressions.MATCHEXPRESSIONS_values%}
+        - {{value.MATCHEXPRESSIONS_value}}
+    {%endfor%}
+    {%endif%}
+    {%endfor%}
+  {%endif%}
+
+{%endif%}
+
+{%if DEPLOYMENTSPEC_strategy%}strategy:
+  {%if STRATEGY_TYPE_Recreate%}type: Recreate{%endif%}
+  {%if STRATEGY_TYPE_RollingUpdate%}type: 
+  rollingUpdate:
+    maxUnavailable: {{maxUnavailable}}
+    {%if maxSurge%}maxSurge: {{maxSurge}}{%endif%}
+  {%endif%}
+
+{%if DEPLOYMENTSPEC_template%}template:
+  {%if DEPLOYMENTSPEC_TEMPLATE_metadata%}metadata:
+    name: {{TEMPLATE_METADATA_name}}
+
+    {%if TEMPLATE_METADATA_deletionGracePeriodSeconds %}deletionGracePeriodSeconds: {{TEMPLATE_METADATA_deletionGracePeriodSeconds}} {%endif%}
+
+    {%if TEMPLATE_METADATA_namespace %}namespace: {{TEMPLATE_METADATA_namespace}} {%endif%}
+
+    {%if TEMPLATE_METADATA_labels%}labels:
+      {%for label in TEMPLATE_METADATA_labels%}  
+      {{label.TEMPLATE_METADATA_LABELS_key}}: {{label.TEMPLATE_METADATA_LABELS_value}}
+      {%endfor%}
+    {%endif%}
+
+    {%if TEMPLATE_METADATA_annotations%}annotations:
+      {%for annotation in TEMPLATE_METADATA_annotations%}  
+      {{annotation.TEMPLATE_METADATA_ANNOTATIONS_key}}: {{annotation.TEMPLATE_METADATA_ANNOTATIONS_value}}
+      {%endfor%}
+    {%endif%}
+
+    {%if TEMPLATE_METADATA_finalizers%}finalizers: {{METADATA_finalizers}}{%endif%}
+
+    {%if TEMPLATE_METADATA_generateName%}generateName: {{TEMPLATE_METADATA_generateName}}{%endif%}
+
+    {%if TEMPLATE_METADATA_managedFields%}managedFields:
+      {%for m in TEMPLATE_METADATA_managedFields%}
+      - apiVersion: {{m.TEMPLATE_METADATA_MANAGEFIELDS_apiversion}}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_fieldsType%}fieldsType: {{m.TEMPLATE_METADATA_MANAGEFIELDS_fieldsType}}{%endif%}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_fieldsV1%}fieldsV1: {{m.TEMPLATE_METADATA_MANAGEFIELDS_fieldsV1}}{%endif%}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_manager%}manager: {{m.TEMPLATE_METADATA_MANAGEFIELDS_manager}}{%endif%}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_operation%}operation: "{{m.TEMPLATE_METADATA_MANAGEFIELDS_OPERATION_apply}}{{m.TEMPLATE_METADATA_MANAGEFIELDS_OPERATION_update}}"{%endif%}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_subresource%}subresource: {{m.TEMPLATE_METADATA_MANAGEFIELDS_subresource}}{%endif%}
+        {%if m.TEMPLATE_METADATA_MANAGEFIELDS_time%}time: "{{m.TEMPLATE_METADATA_MANAGEFIELDS_time}}"{%endif%}
+      {%endfor%}
+    {%endif%}
+
+    {%if TEMPLATE_METADATA_ownerReferences%}ownerReferences:
+      {%for o in TEMPLATE_METADATA_ownerReferences%}
+      - apiVersion: {{o.TEMPLATE_METADATA_OWNERREFERENCES_apiVersion}}
+        kind: {{o.TEMPLATE_METADATA_OWNERREFERENCES_kind}}
+        name: {{o.TEMPLATE_METADATA_OWNERREFERENCES_name}}
+        uid: {{o.TEMPLATE_METADATA_OWNERREFERENCES_uid}}
+        {%if o.TEMPLATE_METADATA_OWNERREFERENCES_blockOwnerDeletion%}blockOwnerDeletion: {{o.TEMPLATE_METADATA_OWNERREFERENCES_blockOwnerDeletion}}{%endif%}
+        {%if o.TEMPLATE_METADATA_OWNERREFERENCES_controller%}controller: {{o.TEMPLATE_METADATA_OWNERREFERENCES_controller}}{%endif%}
+      {%endfor%}
+    {%endif%}
+
+  {%endif%}
+
+  {%if DEPLOYMENTSPEC_TEMPLATE_podspec%}spec: 
+  {% macro indent_pod() %}{% include 'KubernetesFM_spec_pod.txt.jinja'%}{% endmacro %}
+  {{ indent_pod()|indent }}
+  {%endif%}
+
+{%endif%}
+
+{%endif%}
