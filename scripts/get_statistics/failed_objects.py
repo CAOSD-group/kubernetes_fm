@@ -1,11 +1,11 @@
-# Script que cuenta y agrupa las configuraciones no válidas por 'ObjectType' en un archivo CSV y guarda el resultado en un archivo de texto.
-# útil para saber cuales estan fallando y cuales implementar a continuación.
-# Se ha añadido la funcionalidad de contar las configuraciones válidas por 'ObjectType' y guardar el resultado en un archivo de texto.
+# Script that counts and groups invalid configurations by 'ObjectType' in a CSV file and saves the result in a text file.
+# Useful for identifying which ones are failing and which to implement next.
+# The functionality to count valid configurations by 'ObjectType' and save the result in a text file has been added.
 
 import pandas as pd
 
 # Cargar el archivo en un dataframe
-df = pd.read_csv('configsNoValidas.csv')
+df = pd.read_csv('NonValidConfigs.csv')
 
 # Contar las veces que aparece cada elemento en la columna 'ObjectType'
 object_type_counts = df['ObjectType'].value_counts()
@@ -14,11 +14,11 @@ object_type_counts = df['ObjectType'].value_counts()
 object_type_counts_sorted = object_type_counts.sort_values(ascending=False)
 
 # Guardar el resultado en un archivo de texto
-with open('objetos_fallidos.txt', 'w') as f:
+with open('failed_objects.txt', 'w') as f:
     f.write(object_type_counts_sorted.to_string())
 
 # Cargar el archivo en un dataframe
-df = pd.read_csv(r'C:\Users\CAOSD\Documents\githubScraping\Configuraciones.csv')
+df = pd.read_csv(r'configurations/Configurations.csv')
 
 # Contar las veces que aparece cada elemento en la columna 'ObjectType'
 object_type_counts = df['ObjectType'].value_counts()
@@ -27,5 +27,5 @@ object_type_counts = df['ObjectType'].value_counts()
 object_type_counts_sorted = object_type_counts.sort_values(ascending=False)
 
 # Guardar el resultado en un archivo de texto
-with open('objetos.txt', 'w') as f:
+with open('objects.txt', 'w') as f:
     f.write(object_type_counts_sorted.to_string())

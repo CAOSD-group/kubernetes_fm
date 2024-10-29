@@ -1,4 +1,4 @@
-# Este script comprueba que una configuracion (dada como una lista de claves) es válida dado un modelo de características.
+# This script checks whether a configuration (given as a list of keys) is valid according to a feature model.
 
 from flamapy.metamodels.configuration_metamodel.models import Configuration
 from flamapy.metamodels.fm_metamodel.models import FeatureModel, Feature

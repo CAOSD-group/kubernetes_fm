@@ -1,14 +1,14 @@
-# Este script cuenta los repositorios con manifiestos de kubernetes, y calcula la desviación típica, mediana y moda de los valores 
-# mayores que cero de la columna "YAMLsEncontrados" de los archivos CSV. Los resultados se muestran por la terminal.
+# This script counts the repositories with Kubernetes manifests, and calculates the standard deviation, median, 
+# and mode of the values greater than zero in the "YAMLsFound" column of CSV files. The results are displayed in the terminal.
 
 import pandas as pd
 import numpy as np
 from statistics import mode, StatisticsError
 
 # Lista de archivos CSV
-archivos_csv = ['scripts/resources/Busqueda_KubernetesKubernetes_validator.csv', 
-                'scripts/resources/Busqueda_KubernetesKubernetes_manifest.csv', 
-                'scripts/resources/Busqueda_Kubernetes/Kubernetes.csv']
+archivos_csv = ['scripts/resources/Kubernetes_validator_search/Kubernetes_validator.csv', 
+                'scripts/resources/Kubernetes_manifest_search/Kubernetes_manifest.csv', 
+                'scripts/resources/Kubernetes_search/Kubernetes.csv']
 
 # Inicializar el contador y el array
 total_filas_con_valor_mayor_cero = 0
@@ -41,19 +41,19 @@ for archivo in archivos_csv:
     valores_mayores_cero.extend(filas_mayor_cero['YAMLsEncontrados'].tolist())
 
 # Imprimir el total de filas
-print(f'Total de Repositorios: {total_filas}')
+print(f'Total Repositories: {total_filas}')
 
 # Imprimir el total de filas con valores mayores que cero
-print(f'Total de Repositorios con algun manifiesto de kubernetes: {total_filas_con_valor_mayor_cero}')
+print(f'Total Repositories with at least one Kubernetes manifest: {total_filas_con_valor_mayor_cero}')
 
 # Imprimir el maximo de YAMLs encontrados en un repositorio
-print(f'Maximo de YAMLs encontrados en un repositorio: {max}')
+print(f'Maximum YAMLs found in a repository: {max}')
 
 # Imprimir el minimo de YAMLs encontrados en un repositorio
-print(f'Minimo de YAMLs encontrados en un repositorio: {min}')
+print(f'Minimum YAMLs found in a repository: {min}')
 
 # Imprimir el total de filas
-print(f'Total de archivos YAML encontrados (No necesariamente manifiestos): {total_archivos}')
+print(f'Total YAML files found (not necessarily manifests): {total_archivos}')
 
 # Imprimir el array con los valores mayores que cero
 # print(f'Valores mayores que cero: {valores_mayores_cero}')
@@ -62,17 +62,17 @@ print(f'Total de archivos YAML encontrados (No necesariamente manifiestos): {tot
 if valores_mayores_cero:
     # Desviación típica
     desviacion_tipica = np.std(valores_mayores_cero, ddof=0)  # ddof=1 para la muestra
-    print(f'Desviación típica: {desviacion_tipica}')
+    print(f'Standard deviation: {desviacion_tipica}')
     
     # Mediana
     mediana = np.median(valores_mayores_cero)
-    print(f'Mediana: {mediana}')
+    print(f'Median: {mediana}')
     
     # Moda usando statistics.mode
     try:
         moda = mode(valores_mayores_cero)
-        print(f'Moda: {moda}')
+        print(f'Mode: {moda}')
     except StatisticsError:
-        print('No hay un único valor que sea moda.')
+        print('There is no single mode value.')
 else:
-    print('No hay valores mayores que cero para calcular las estadísticas.')
+    print('There are no values greater than zero to calculate the statistics.')

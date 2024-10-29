@@ -1,5 +1,5 @@
-# Este script recorre todos los archivos de una carpeta y comprueba si es un YAML de
-# Kubernetes, verificando si existen las palabras apiVersion y kind.
+# This script iterates through all the files in a folder and checks if it is a Kubernetes YAML by verifying 
+# if the words apiVersion and kind exist.
 
 import os
 import shutil
@@ -12,12 +12,12 @@ def is_kubernetes_manifest(file_path):
     except UnicodeDecodeError:
         return False
     except Exception as e:
-        print(f"Se produjo un error al leer el archivo: {e}")
+        print(f"An error occurred while reading the file: {e}")
         return False
 
 # Recorre todos los archivos en la carpeta
 def main(folder_path, destnonyamls):
-    print(f"Eliminando archivos que no son manifiestos de kubernetes...")
+    print(f"Removing files that are not Kubernetes manifests...")
     eliminated = 0
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)
@@ -28,5 +28,5 @@ def main(folder_path, destnonyamls):
                 shutil.copy2(file_path, destnonyamls)
                 os.remove(file_path)
                 eliminated += 1
-    print(f"Se han eliminado {eliminated} archivos")    
+    print(f"{eliminated} files have been deleted.")    
     return eliminated

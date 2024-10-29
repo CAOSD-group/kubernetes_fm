@@ -1,12 +1,12 @@
-# Obtiene el numero de configuraciones validas, no validas, con variabilidad y con errores de un archivo CSV y guarda la 
-# distribucion de configuraciones segun el numero de caracteristicas en un archivo CSV. Tambien guarda un CSV con las 
-# configuraciones fallidas.
+# Gets the number of valid, invalid, variability, and error configurations from a CSV file and saves the 
+# configuration distribution based on the number of features in a CSV file. It also saves a CSV with the 
+# failed configurations.
 
 import csv
 import pandas as pd
 
 # Ruta del archivo CSV
-ruta_csv = r'C:\Users\CAOSD\Documents\githubScraping\Configuraciones.csv'
+ruta_csv = r'configurations/Configurations.csv'
 
 # Leer el archivo CSV
 df = pd.read_csv(ruta_csv)
@@ -31,15 +31,15 @@ configsNoValidasConVariabilidad = df[(df['Valid'] == False) & (df['ObjectType'] 
 configsErroneas = df[(df['ObjectType'] == 'none')].shape[0]
 
 # Imprimir los resultados
-print(f"Total de configuraciones válidas: {configValidas}")
-print(f"Total de configuraciones válidas (sin variabilidad) con cardinalidad: {configsValidasConCardinalidad}")
-print(f"Total de configuraciones válidas (sin cardinalidad) con variabilidad: {configValidasConVariabilidad}")
-print(f"Total de configuraciones no válidas (sin errores): {configNoValidas}")
-print(f"Total de configuraciones no válidas (sin errores) con variabilidad: {configsNoValidasConVariabilidad}")
-print(f"Total de configuraciones con error: {configsErroneas}")
+print(f"Total valid configurations: {configValidas}")
+print(f"Total valid configurations (without variability) with cardinality: {configsValidasConCardinalidad}")
+print(f"Total valid configurations (without cardinality) with variability: {configValidasConVariabilidad}")
+print(f"Total invalid configurations (without errors): {configNoValidas}")
+print(f"Total invalid configurations (without errors) with variability: {configsNoValidasConVariabilidad}")
+print(f"Total configurations with errors: {configsErroneas}")
 
 # Calcular el total de configuraciones
-print(f"Total de configuraciones leidas: {df.shape[0]}")
+print(f"Total configurations read: {df.shape[0]}")
 
 # Agrupar por el número de 'numFeatures' y contar (no contar aquellas configuraciones con variabilidad o errores)
 conteos_num_features = df[((df['ObjectType'] != 'none'))]['numFeatures'].value_counts().sort_index()
@@ -55,7 +55,7 @@ with open('distConfigs.csv', mode='w', newline='', encoding='utf-8') as csv_file
   for num_features, count in resultados_num_features.items():
     csv_writer.writerow([num_features, count])
 
-with open ('configsNoValidas.csv', mode='w', encoding="utf-8") as csv_file:
+with open ('NonValidConfigs.csv', mode='w', encoding="utf-8") as csv_file:
   csv_writer = csv.writer(csv_file)
   csv_writer.writerow(configNoValidasROWS.columns)
   for index, row in configNoValidasROWS.iterrows():

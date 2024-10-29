@@ -1,5 +1,5 @@
-# Este script crea un diccionario donde se almacenan las probabilidades de cada característica y 
-# luego escribe un archivo CSV con los porcentajes de las características agrupadas en intervalos de 5%.
+# This script creates a dictionary where the probabilities of each feature are stored and 
+# then writes a CSV file with the percentages of the features grouped in 5% intervals.
 
 import csv
 import math
@@ -16,7 +16,7 @@ def read_csv(source_csv):
     for row in reader_csv:
       prob_dict[row["Feature"]] = float(row["Percentage"])
     n_features = prob_dict.__len__() 
-    print(f"Se han leído {n_features} características.")
+    print(f"{n_features} features have been read.")
   return prob_dict, n_features
 
 

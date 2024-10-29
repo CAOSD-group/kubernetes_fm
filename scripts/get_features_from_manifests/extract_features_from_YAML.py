@@ -18,7 +18,7 @@ import os
 import valid_config
 import socket
 
-output_csv = "Configuraciones.csv" # Ruta del archivo CSV de salida
+output_csv = "Configurations.csv" # Ruta del archivo CSV de salida
 output_numConfPerManifest_csv = "numConfPerManifest.csv" # Ruta del archivo CSV con el numero de configuraciones por manifiesto
 output_not_processed = "filesNotProcessed.txt" # Ruta del archivo con los archivos no procesados
 folder_path = "YAMLs" # Ruta de la carpeta con los archivos YAML
@@ -233,9 +233,9 @@ if __name__ == '__main__':
                 continue
     # Guardar los archivos no procesados
     with open(output_not_processed, mode='w', newline='', encoding='utf-8') as file:
-        file.write(f'No se han podido procesar {numFilesNotProcessed} archivos. \n\n')
+        file.write(f'Unable to process {numFilesNotProcessed} files. \n\n')
         for (filename, err) in filesNotProcessed:
-            file.write(f'archivo: {filename} ')
+            file.write(f'file: {filename} ')
             file.write(f'error: {err}')
             file.write(f'\n <------------------------------------> \n')
     # Guardar el numero de configuraciones por manifiesto
@@ -246,5 +246,5 @@ if __name__ == '__main__':
             csv_writer.writerow([key, value])
 
     # Mostrar mensaje de finalización
-    print(f"Las claves se han guardado en {output_csv}.")
-    print(f"No se han podido procesar {numFilesNotProcessed} archivos. La lista se encuentra en {output_not_processed}.")
+    print(f"The keys have been saved in {output_csv}.")
+    print(f"Unable to process {numFilesNotProcessed} files. The list can be found in {output_not_processed}.")

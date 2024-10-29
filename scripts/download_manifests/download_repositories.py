@@ -1,18 +1,16 @@
-# Este script descarga repositorios de GitHub y extrae los archivos YAML de los repositorios. Luego, filtra los archivos
-# YAML que no son manifiestos de Kubernetes y guarda la información en un archivo CSV. El archivo CSV cuenta con las
-# siguientes columnas:
-# - nombreRepo: Nombre del repositorio
-# - numRepoIntervalo: Número del repositorio en el intervalo de búsqueda
-# - YAMLsEncontrados: Número de archivos YAML encontrados en el repositorio
-# - stringBusqueda: Cadena de búsqueda utilizada en GitHub
-# - pagBusqueda: Página de búsqueda en GitHub
-# - url: URL de la búsqueda en GitHub
-# Por ultimo, muestra por pantalla el número de repositorios analizados, el número de archivos YAML encontrados y el número
-# de archivos YAML que no son manifiestos de Kubernetes.
-# Para descargar los repositorios, se utiliza la API de GitHub. Se debe proporcionar un token de autenticación de GitHub
-# en la variable de entorno "github_token". El token debe tener permisos para leer repositorios públicos. Para obtener
-# un token de GitHub, siga las instrucciones en https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token.
-
+# This script downloads repositories from GitHub and extracts YAML files from the repositories. It then filters out the YAML files 
+# that are not Kubernetes manifests and saves the information in a CSV file. The CSV file contains the following columns:
+# - nombreRepo: Name of the repository
+# - numRepoIntervalo: Number of the repository in the search interval
+# - YAMLsEncontrados: Number of YAML files found in the repository
+# - stringBusqueda: Search string used on GitHub
+# - pagBusqueda: Search page on GitHub
+# - url: URL of the search on GitHub
+# Finally, it displays on the screen the number of analyzed repositories, the number of YAML files found, and the number of 
+# YAML files that are not Kubernetes manifests.
+# To download the repositories, the GitHub API is used. An authentication token must be provided in the "github_token" 
+# environment variable. The token must have permissions to read public repositories. To obtain a GitHub token, follow the 
+# instructions at https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token.
 
 import requests
 import git
@@ -90,7 +88,7 @@ def remove_readonly(func, path, _):
 def buscar_repositorios(query, github_user, github_token, page, month):
     time.sleep(2)
     url = f'https://api.github.com/search/repositories?q={query}+{month}&page={page}&per_page=100&sort=stars&order=desc'
-    print(f"Descargando repositorios desde la url -> {url}")
+    print(f"Downloading repositories from the URL -> {url}")
     response = requests.get(url, auth=(github_user, github_token))
     if response.status_code == 200:
         return response.json()['items'], response.json()['total_count'], url
@@ -114,27 +112,27 @@ def eliminar_repo(ruta_repositorio):
     archivo_en_uso(ruta_repositorio)
     try:
         shutil.rmtree(ruta_repositorio, onerror=remove_readonly)
-        print(f"El repositorio ha sido eliminado exitosamente.")
+        print(f"The repository has been successfully deleted.")
     except Exception as e:
-        print(f"Error al eliminar el repositorio {ruta_repositorio}: {e}")
+        print(f"Error deleting the repository{ruta_repositorio}: {e}")
 
 # Función para clonar un repositorio
 def clonar_repositorio(repo, directorio_destino):
-    print(f"Clonando {repo['clone_url']}...")
+    print(f"Cloning {repo['clone_url']}...")
     if not os.path.exists(directorio_destino):
         os.makedirs(directorio_destino)
     try:
         repo = git.Repo.clone_from(repo['clone_url'], directorio_destino)
-        print(f"Repositorio {directorio_destino} clonado con exito.")
+        print(f"Repository {directorio_destino} cloned successfully.")
     except:
-        print('Hubo un problema con la clonacion.')
+        print('There was a problem with the cloning.')
     # Elimina los permisos de "read-only"
     quitar_solo_lectura(directorio_destino)
     return repo
 
 # Funcion para eliminar los permisos de lectura de un directorio
 def quitar_solo_lectura(directorio):
-    print(f'Eliminando permisos de solo lectura...')
+    print(f'Removing read-only permissions...')
     for root, dirs, files in os.walk(directorio):
         for nombre in files:
             ruta_archivo = os.path.join(root, nombre)
@@ -162,7 +160,7 @@ with open(query+'.csv', mode='w', newline='') as file:
 
         while numRepo <= numMaxRepo and numRepo <= 1000 and page <= maxPage:
             for repoURL in repositoriosURL:
-                print(f"<---- Repositorio {numRepo} de {numMaxRepo} ---->")
+                print(f"<---- Repository {numRepo} of {numMaxRepo} ---->")
                 ruta_repositorio = clonar_en_directorio+repoURL['full_name']
                 repo = clonar_repositorio(repoURL, ruta_repositorio)
 
@@ -183,4 +181,4 @@ with open(query+'.csv', mode='w', newline='') as file:
     # Filtramos aquellos .yaml que no son manifiestos de kubernetes
     numAllNonYamls = filter_Manifest.main(destYAML, destNonYAML)
 
-    print(f'\nSe han analizado {numAllRepos} repositorios, encontrandose {numAllYamls} ficheros .yaml, de los cuales se han descartado {numAllNonYamls}')
+    print(f'\nA total of {numAllRepos} repositories have been analyzed, finding {numAllYamls} .yaml files, of which {numAllNonYamls} have been discarded.')

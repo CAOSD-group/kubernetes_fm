@@ -1,4 +1,4 @@
-# Este script busca los archivos YAML de una carpeta y guarda todos ellos en otra carpeta
+# This script searches for YAML files in a folder and saves all of them in another folder.
 
 import os
 import shutil
@@ -21,7 +21,7 @@ def generar_nombre_unico(dest, nombre_archivo):
     return nuevo_nombre
 
 def main(root, dest):
-    print(f'Buscando archivos yaml...')
+    print(f'Searching for YAML files......')
     directorio_raiz = root  
     if not os.path.exists(dest):
         os.makedirs(dest)
@@ -32,7 +32,7 @@ def main(root, dest):
         nombre_archivo = os.path.basename(archivo)
         nombre_unico = generar_nombre_unico(dest, nombre_archivo)
         shutil.copy2(archivo, os.path.join(dest, nombre_unico))
-    print(f"se han copiado {len(archivos_yaml)} archivos")
+    print(f"{len(archivos_yaml)} files have been copied.")
     return len(archivos_yaml)
 
 # Llamada de prueba a la función main

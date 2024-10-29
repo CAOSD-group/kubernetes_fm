@@ -1,10 +1,10 @@
-# Script que cuenta las caracteristicas más comunes en archivos YAML de una carpeta y guarda los resultados en un CSV.
-# Tambien añade con cero apariciones las caracteristicas del FM que no se encontraron en los YAML.
-# las columnas del CSV son:
-# - feature: Clave del archivo YAML
-# - Count: Número de veces que aparece la clave
-# - Percentage: Porcentaje de apariciones de la clave en relación con la clave más común
-# Tambien guarda un archivo CSV con el numero de configuraciones por manifiesto (incluyendo aquellas donde no se encontraron configuraciones)
+# Script that counts the most common features in YAML files from a folder and saves the results in a CSV.
+# It also adds features from the FM that were not found in the YAML with zero occurrences.
+# The columns of the CSV are:
+# - feature: Key from the YAML file
+# - Count: Number of times the key appears
+# - Percentage: Percentage of occurrences of the key in relation to the most common key
+# It also saves a CSV file with the number of configurations per manifest (including those where no configurations were found).
 
 import os
 import yaml
@@ -196,7 +196,7 @@ def main(folder_path, output_csv):
             percentaje = float(res['Percentage'].values[0])  # Convertir a flotante
             df = add_mandatory_children(df, fm_model, feature, count, percentaje) # Agregamos las caracteristicas hijas obligatorias
     except AttributeError as e:
-        print(f"Error: No se pudo encontrar la caracteristica {feature_name} en el modelo FM.")
+        print(f"Error: Could not find the feature {feature_name} in the FM model.")
 
     df = add_features_not_found(df, fm_model) # Agregamos las caracteristicas que no se encontraron en los archivos YAML
 
@@ -210,7 +210,7 @@ def main(folder_path, output_csv):
             csv_writer.writerow([key, value])
 
     df.to_csv(output_csv, index=False)
-    print(f"Resultados guardados en {output_csv}")
+    print(f"Results saved in {output_csv}.")
 
 if __name__ == "__main__":
     main(folder_path, output_csv)

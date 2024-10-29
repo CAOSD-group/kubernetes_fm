@@ -14,12 +14,12 @@ import click
 
 # ARGUMENTOS CLICK
 @click.command()
-@click.option('--config', '-c', required=True, type=click.Path(exists=True), default='', help='Ruta al fichero de configuracion del FM')
-@click.option('--map', '-m', required=True, type=click.Path(exists=True), default='', help='Ruta al fichero del mapping')
-@click.option('--template', '-t', required=True, type=click.Path(exists=True), default='', help='ruta al fichero template')
-@click.option('--kubernetes', '-k', is_flag=True, help='Indica si se debe comprobar la validez del resultado para kubernetes')
-@click.option('--details', is_flag=True, help='Indica si se debe dar detalles de optimización del fichero YAML')
-@click.option('--dockerfile', '-d', is_flag=True, help='Indica si se debe comprobar la validez del resultado para kubernetes')
+@click.option('--config', '-c', required=True, type=click.Path(exists=True), default='', help='Configuration file path of the FM')
+@click.option('--map', '-m', required=True, type=click.Path(exists=True), default='', help='Mapping file path')
+@click.option('--template', '-t', required=True, type=click.Path(exists=True), default='', help='Template file path')
+@click.option('--kubernetes', '-k', is_flag=True, help='Indicate if the result validity should be checked for Kubernetes')
+@click.option('--details', is_flag=True, help='Indicate if YAML file optimization details should be provided')
+@click.option('--dockerfile', '-d', is_flag=True, help='Indicate if the result should be validated for Kubernetes')
 
 def main(config, map, template, kubernetes, details, dockerfile):
     kubeconform = "scripts/validators/kubeconform.exe"

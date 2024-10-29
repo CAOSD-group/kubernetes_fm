@@ -1,5 +1,5 @@
-# script para simplificar y adaptar un modelo de características para poder trabajar
-# con la herramienta de Flamapy (también borra las restricciones)
+# Script to simplify and adapt a feature model for compatibility with Flamapy
+# (also removes constraints)
 
 import re
 
@@ -62,4 +62,4 @@ def generate_fm_simplified(fm_original, fm_simplified, palabras_a_eliminar):
 # Llamar a la función para procesar el archivo
 generate_fm_simplified(fm_original, fm_simplified, words_to_delete)
 
-print(f"El archivo procesado se ha guardado como {fm_simplified}")
+print(f"The processed file has been saved as {fm_simplified}")

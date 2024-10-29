@@ -1,4 +1,0 @@
-nombreRepo,numRepoIntervalo,YAMLsEncontrados,stringBusqueda,pagBusqueda,url
-linuxtips/MesDoKubernetes,1,1,Kubernetes,1,https://api.github.com/search/repositories?q=Kubernetes+created:2024-01-01..2024-01-10&page=1&per_page=100&sort=stars&order=desc
-eryajf/awesome-ops,2,525,Kubernetes,1,https://api.github.com/search/repositories?q=Kubernetes+created:2024-01-01..2024-01-10&page=1&per_page=100&sort=stars&order=desc
-ankorstore/yokai,3,32,Kubernetes,1,https://api.github.com/search/repositories?q=Kubernetes+created:2024-01-01..2024-01-10&page=1&per_page=100&sort=stars&order=desc
