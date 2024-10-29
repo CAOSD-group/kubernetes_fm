@@ -20,8 +20,8 @@ import os
 import shutil
 import psutil
 import stat
-import scripts.download_manifests.search_YAMLs as search_YAMLs
-import scripts.download_manifests.filter_Manifest as filter_Manifest
+import search_YAMLs
+import filter_Manifest
 import csv
 import time
 
@@ -67,7 +67,7 @@ year2024 = [
 
 # Configuración de GitHub
 github_token = os.getenv("github_token") # mi token de GitHub
-github_user = 'Enriquelp'
+github_user = 'GITHUB_USER'
 
 # Resto de variables
 query = 'Kubernetes' # string para buscar en GitHub
