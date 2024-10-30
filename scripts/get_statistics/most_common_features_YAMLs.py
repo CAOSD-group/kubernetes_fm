@@ -20,11 +20,11 @@ from flamapy.metamodels.pysat_metamodel.transformations import FmToPysat
 from flamapy.metamodels.pysat_metamodel.operations import PySATSatisfiableConfiguration
 import socket
 
-mapping_file = 'resources/mapping.csv' 
-fm_file = 'resources/kubernetes.uvl'
+mapping_file = 'mapping\KubernetesFM_mapping.csv' 
+fm_file = 'variability_model\KubernetesFM_simple.uvl'
 folder_path = 'YAMLs'  # Ruta de la carpeta con archivos .yaml
 output_csv = 'most_common_features.csv'  # Ruta donde se guardará el CSV
-output_numConfPerManifest_csv = 'numConfPerManifest2.csv'  # Ruta donde se guardará el CSV con el numero de configuraciones por manifiesto
+output_numConfPerManifest_csv = 'numConfPerManifest.csv'  # Ruta donde se guardará el CSV con el numero de configuraciones por manifiesto
 map1 = {} # diccionario clave (feature) -> valor (string)
 map2 = {} # diccionario clave (feature) -> valor (string)
 
