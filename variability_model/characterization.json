@@ -8217,7 +8217,7 @@
             "description": "Mean number of features occurring in configurations.",
             "parent": "Configuration distribution",
             "level": 1,
-            "value": 319,
+            "value": 319.5,
             "size": null,
             "ratio": null
         },
@@ -8226,7 +8226,7 @@
             "description": "Standard deviation of number of features in configurations.",
             "parent": "Configuration distribution",
             "level": 1,
-            "value": 10.06,
+            "value": 14.36,
             "size": null,
             "ratio": null
         },
@@ -8244,7 +8244,7 @@
             "description": "Median absolute deviation number of features in configurations.",
             "parent": "Configuration distribution",
             "level": 1,
-            "value": 0.0,
+            "value": 11.44,
             "size": null,
             "ratio": null
         },
@@ -8253,7 +8253,7 @@
             "description": "Most frequently occurring number of features for a configuration.",
             "parent": "Configuration distribution",
             "level": 1,
-            "value": 9,
+            "value": 320,
             "size": null,
             "ratio": null
         },
