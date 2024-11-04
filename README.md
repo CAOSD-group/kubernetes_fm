@@ -7,12 +7,12 @@ The repository also contains all the resources associated with the submission of
 The repository contains the following resources:
 - The [Kubernetes feature model](variability_model/)
 - [Real-world configurations](configurations/) of Kubernetes.
-- [Scripts](scripts/) to gather the configurations from the GitHub repositories.
+- [Scripts](scripts/) to gather the configurations from the GitHub repositories, and to generate configurations from the feature model.
 - [Templates](templates/) to generate configurations using the feature model.
-- [Scripts]()
+- [Mapping](mapping/) with information to map every feature in the model to the generation templates.
 
 ## Usage
-The feature model can be directly download from [here]().
+The feature model can be directly download from [here](variability_model/KubernetesFM.uvl).
 
 The model can be easily inspected with a text editor or with any application supporting the UVL language. 
 Tool support for UVL can be consulted in the [UVL official website](https://universal-variability-language.github.io/).
@@ -70,3 +70,4 @@ To generate new configurations using the feature model, follow these steps:
 1.
 2.
 
+### Other resources
