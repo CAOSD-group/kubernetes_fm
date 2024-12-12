@@ -5,32 +5,32 @@ import pandas as pd
 import numpy as np
 from statistics import mode, StatisticsError
 
-# Leer el archivo CSV
+# Read the CSV file.
 df = pd.read_csv('numConfPerManifest.csv')
 
-# Crear un array con las entradas de la columna 'numConfigurations'
+# Create an array with the entries from the 'numConfigurations' column
 array_num_configurations = df['numConfigurations'].tolist()
 numConfigs = df['numConfigurations'].sum()
 
-# Total de configuraciones
+# Total configurations
 print(f'Total configurations {numConfigs}')
 
-#desviación típica
+# Standard deviation
 desviacion_tipica = np.std(array_num_configurations, ddof=0) 
 print(f'Standard deviation: {desviacion_tipica}')
 
-# Mediana
+# Median
 mediana = np.median(array_num_configurations)
 print(f'Median: {mediana}')
 
-# Moda usando statistics.mode
+# Mode using statistics.mode
 try:
     moda = mode(array_num_configurations)
     print(f'Mode: {moda}')
 except StatisticsError:
     print('There is no single mode value.')
 
-# Maximo y minimo
+# Maximum and minimum
 valor_maximo = df['numConfigurations'].max()
 valor_minimo = suma_numConfigs = df[df['numConfigurations'] > 0]['numConfigurations'].min()
 

@@ -64,8 +64,8 @@ def main(configuration, fm_model, sat_model, cardinality):
     error = ''
     try:
         valid, complete_config = valid_config(configuration, fm_model, sat_model)
-        # Si la configuración no es válida pero contiene cardinalidad, la damos por buena (hacemos esto porque dentro de una feature con 
-        # cardinalidad de mas de 1 podria haber alguna feature alternative, escogiendo una de las opciones cada vez y provocando error de validacion)
+        # If the configuration is not valid but contains cardinality, we consider it valid (we do this because within a feature with a cardinality 
+        # of more than 1, there could be an alternative feature, choosing one of the options each time and causing a validation error).
         if not valid and cardinality == True:
             valid = True
     except Exception as e:

@@ -4,12 +4,12 @@
 import csv
 import math
 
-n_features = 0 # Numero total de caracteristicas en el csv de entrada  
-output_csv = 'FIP.csv' # Nombre del archivo de salida
-source_csv = 'most_common_features.csv' # Nombre del archivo de entrada
-prob_dict = {} # Diccionario para almacenar las probabilidades de cada caracteristica
+n_features = 0 # Total number of features in the input CSV. 
+output_csv = 'FIP.csv' # Name of the output file.
+source_csv = 'most_common_features.csv' # Name of the input file.
+prob_dict = {} # Dictionary to store the probabilities of each feature.
 
-# Leer el archivo CSV de entrada y almacenar las probabilidades de cada caracteristica en un diccionario
+# Read the input CSV file and store the probabilities of each feature in a dictionary.
 def read_csv(source_csv):
   with open(source_csv, mode='r', encoding='utf-8') as file:
     reader_csv = csv.DictReader(file)
@@ -36,7 +36,7 @@ def write_csv(source_csv):
   print(f'Count: {sum(count)}')
   with open(source_csv, mode='w', newline='', encoding='utf-8') as file:
     writer_csv = csv.writer(file)
-    writer_csv.writerow(['Percentage', 'Features', 'Probability']) # encabezado
+    writer_csv.writerow(['Percentage', 'Features', 'Probability']) # Header
     for i in range(len(x_axis)):
       writer_csv.writerow([x_axis[i], count[i], y_axis[i]])
 

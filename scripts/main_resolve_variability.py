@@ -6,7 +6,7 @@ import click
 from spl_implementation.models import VEngine
 
 
-# ARGUMENTOS CLICK
+# CLICK ARGUMENTS
 @click.command()
 @click.option('--config', '-c', required=True, type=click.Path(exists=True), default='', help='Configuration file path of the FM')
 @click.option('--map', '-m', required=True, type=click.Path(exists=True), default='', help='Mapping file path')
@@ -27,25 +27,25 @@ def main(config, map, template, kubernetes, details, dockerfile):
 
     result = vengine.resolve_variability()
 
-    with open("KubernetesManifest.yaml", "w") as f: # Guarda el resultado en un fichero 
+    with open("KubernetesManifest.yaml", "w") as f: # Save the result in a file
         print('\n')
         print_without_blank_lines(result, f)
         print('\n')
     
-    if(kubernetes): # Comprueba si existe algun error en el YAML de kubernetes
+    if(kubernetes): # Check if exist any error in the kubernetes YAML
         rdo = subprocess.run([kubeconform, "KubernetesManifest.yaml"], capture_output=True, text=True)
         if (rdo.stdout != ''):
-            print(f"\033[91m ERROR: {rdo.stdout} \033[0m") # Imprime el resultado de la comprobacion en rojo
+            print(f"\033[91m ERROR: {rdo.stdout} \033[0m") # Print the result of the check in red
         if(details):
             details = subprocess.run([kube_score, "score", "KubernetesManifest.yaml"], capture_output=True, text=True) # Analiza el resultado en busca de recomendaciones
             print(f"\033[92m RECOMMENDATIONS: {details.stdout} \033[0m")
     if (dockerfile):
          rdo = subprocess.run([hadolint, "KubernetesManifest.yaml"], capture_output=True, text=True)
-         print(f"\033[91m ERROR: {rdo.stdout} \033[0m") # Imprime el resultado de la comprobacion en rojo
+         print(f"\033[91m ERROR: {rdo.stdout} \033[0m") # Print the result of the check in red
 def print_without_blank_lines(text, file):
     for line in text.splitlines():
-        if line.strip():  # Verifica si la línea no está en blanco
-            sys.stdout.write(line + '\n')  # Escribe la línea en stdout
+        if line.strip():  # Verify if the line is not blank
+            sys.stdout.write(line + '\n')  # Write the line in stdout
             file.write(line + '\n')
 
 if __name__ == '__main__':

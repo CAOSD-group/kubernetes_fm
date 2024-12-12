@@ -15,7 +15,7 @@ def is_kubernetes_manifest(file_path):
         print(f"An error occurred while reading the file: {e}")
         return False
 
-# Recorre todos los archivos en la carpeta
+# Traverse all the files in the folder
 def main(folder_path, destnonyamls):
     print(f"Removing files that are not Kubernetes manifests...")
     eliminated = 0

@@ -27,7 +27,7 @@ def main(root, dest):
         os.makedirs(dest)
     archivos_yaml = buscar_archivos_yaml(directorio_raiz)
 
-    # copiar los archivos .yaml encontrados
+    # Copy the found .yaml files
     for archivo in archivos_yaml:
         nombre_archivo = os.path.basename(archivo)
         nombre_unico = generar_nombre_unico(dest, nombre_archivo)
@@ -35,7 +35,7 @@ def main(root, dest):
     print(f"{len(archivos_yaml)} files have been copied.")
     return len(archivos_yaml)
 
-# Llamada de prueba a la función main
-# main('/ruta/de/origen', '/ruta/de/destino')
+# Test call to the main function
+# main('/source/path', '/destination/path')
 
 

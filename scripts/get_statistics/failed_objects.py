@@ -4,28 +4,28 @@
 
 import pandas as pd
 
-# Cargar el archivo en un dataframe
+# Load the file into a dataframe.
 df = pd.read_csv('NonValidConfigs.csv')
 
-# Contar las veces que aparece cada elemento en la columna 'ObjectType'
+# Count how many times each item appears in the "ObjectType" column
 object_type_counts = df['ObjectType'].value_counts()
 
-# Ordenar de mayor a menor (value_counts ya devuelve el resultado ordenado)
+# Sort from highest to lowest (value_counts already returns the result sorted)
 object_type_counts_sorted = object_type_counts.sort_values(ascending=False)
 
-# Guardar el resultado en un archivo de texto
+# Save the result in a text file.
 with open('failed_objects.txt', 'w') as f:
     f.write(object_type_counts_sorted.to_string())
 
 # Cargar el archivo en un dataframe
 df = pd.read_csv(r'configurations/Configurations.csv')
 
-# Contar las veces que aparece cada elemento en la columna 'ObjectType'
+# Count how many times each item appears in the "ObjectType" column
 object_type_counts = df['ObjectType'].value_counts()
 
-# Ordenar de mayor a menor (value_counts ya devuelve el resultado ordenado)
+# Sort from highest to lowest (value_counts already returns the result sorted)
 object_type_counts_sorted = object_type_counts.sort_values(ascending=False)
 
-# Guardar el resultado en un archivo de texto
+# Save the result in a text file.
 with open('objects.txt', 'w') as f:
     f.write(object_type_counts_sorted.to_string())

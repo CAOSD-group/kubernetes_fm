@@ -22,59 +22,59 @@ import socket
 
 mapping_file = 'mapping\KubernetesFM_mapping.csv' 
 fm_file = 'variability_model\KubernetesFM_simple.uvl'
-folder_path = 'YAMLs'  # Ruta de la carpeta con archivos .yaml
-output_csv = 'most_common_features.csv'  # Ruta donde se guardará el CSV
-output_numConfPerManifest_csv = 'numConfPerManifest.csv'  # Ruta donde se guardará el CSV con el numero de configuraciones por manifiesto
-map1 = {} # diccionario clave (feature) -> valor (string)
-map2 = {} # diccionario clave (feature) -> valor (string)
+folder_path = 'YAMLs'  # Path of the folder with .yaml files
+output_csv = 'most_common_features.csv'  # Path where the CSV will be saved
+output_numConfPerManifest_csv = 'numConfPerManifest.csv'  # Path where the CSV with the number of configurations per manifest will be saved
+map1 = {} # Dictionary key (feature) -> value (string)
+map2 = {} # Dictionary key (feature) -> value (string)
 
-# Leer el archivo CSV y construir la tabla de mapeo
+# Read the CSV file and build the mapping table
 def create_mapping(mapping_file):
     mapping_table = []
     global map1
     global map2
     with open(mapping_file, mode='r', newline='', encoding='utf-8') as file:
         reader = csv.reader(file)
-        next(reader)  # Saltar la cabecera
+        next(reader)  # Skip the header
         for row in reader:
-            if len(row) >= 3:  # Asegurarse de que hay al menos 3 columnas
+            if len(row) >= 3:  # Ensure that there are at least 3 columns
                 mapping_table.append((row[0], row[1], row[2]))
-    # Crear los diccionarios map1 y map2
+    # Create the dictionaries map1 and map2
     map1 = {n2: n1 for n1, n2, _ in mapping_table}
     map2 = {n3: n1 for n1, _, n3 in mapping_table}
 
-# Validar si un valor es una IP (IPv4 o IPv6)
+# Validate if a value is an IP (IPv4 or IPv6)
 def is_ip(value):
     try:
-        # Intentar validar como IPv4
+        # Try to validate as IPv4
         socket.inet_pton(socket.AF_INET, value)
         return True
     except socket.error:
-        pass  # No es una IPv4 válida
+        pass  # It is not a valid IPv4
     try:
-        # Intentar validar como IPv6
+        # Try to validate as IPv6
         socket.inet_pton(socket.AF_INET6, value)
         return True
     except socket.error:
-        pass  # No es una IPv6 válida
+        pass  # It is not a valid IPv6
     return False
 
-# Extraer las claves de un archivo YAML
+# Extract the keys from a YAML file
 def extract_keys(yaml_content, kind,  parent_key=''):
     keys = []
     if isinstance(yaml_content, dict):
         for key, value in yaml_content.items():
-            if isinstance(key, str):  # Asegurarse de que la clave es una cadena
+            if isinstance(key, str):  # Ensure that the key is a string
                 full_key = f"{parent_key}_{key}" if parent_key else key
                 full_value = f"{parent_key}_{key}_{value}" if parent_key else f"{key}_{value}"
                 if parent_key.startswith('spec'): 
                   full_key = f"{kind}{parent_key}_{key}"
                   if isinstance(value, str):
-                    if is_ip(value): # Si el valor es una IP, se añade como "key_IP_value"
+                    if is_ip(value): # If the value is an IP, add it as "key_IP_value"
                         full_value = f"{full_key}_IP"
                     else:
                         full_value = f"{full_key}_{value}"
-                # Buscamos la clave en el map2
+                # Search for the key in map2
                 if full_key in map2:
                     feature = map2[full_key]
                     if feature not in keys:
@@ -85,7 +85,7 @@ def extract_keys(yaml_content, kind,  parent_key=''):
                         if feature not in keys:
                             keys.append(feature)
                             keys.extend(extract_keys(value, kind, full_key))
-                # Buscamos la clave en el map2 
+                # Search for the key in map1
                 elif full_key in map1:
                     feature = map1[full_key]
                     if feature not in keys:
@@ -104,7 +104,7 @@ def extract_keys(yaml_content, kind,  parent_key=''):
             keys.extend(extract_keys(item, kind, parent_key))
     return keys
 
-# Obtener el grupo y la versión del objeto de Kubernetes
+# Obtain the group and version of the Kubernetes object.
 def get_group_and_version(doc):
     var = doc.get('apiVersion', '').split('/')
     kind = doc.get('kind', '')
@@ -115,7 +115,7 @@ def get_group_and_version(doc):
         version = var[0]
     return group, version, kind
 
-# Contar las claves en los archivos YAML
+# Count the keys in the YAML files.
 def count_keys_in_folder(folder_path):
     key_counter = Counter()
     numConfPerManifest = {}
@@ -136,7 +136,7 @@ def count_keys_in_folder(folder_path):
                           if version in map1: keys.append(map1[version])
                           key_counter.update(keys)
             except UnicodeDecodeError:
-                #print(f"UnicodeDecodeError: No se pudo leer {filename} con codificación UTF-8. Intentando con la codificación por defecto.")
+                #print(f"UnicodeDecodeError: Could not read {filename} with UTF-8 encoding. Trying with the default encoding.")
                 try:
                     with open(file_path, 'r') as file:
                         documents = yaml.safe_load_all(file)
@@ -154,12 +154,12 @@ def count_keys_in_folder(folder_path):
             except yaml.YAMLError as e:
                 continue
             except AttributeError as e:
-                #print(f"AttributeError: No se pudo leer {filename}.")
+                #print(f"AttributeError: Could not read. {filename}.")
                 continue
         numConfPerManifest[filename] = configs
     return key_counter, numConfPerManifest
 
-# Agregar las caracteristicas hijas obligatorias que no son abstactas
+# Add the mandatory child features that are not abstract
 def add_mandatory_children(df, fm_model, feature, count, percentaje):
     for child in feature.get_children():
         if child.is_mandatory() and not child.is_abstract and child.name not in df['Feature'].values:
@@ -168,41 +168,41 @@ def add_mandatory_children(df, fm_model, feature, count, percentaje):
                 df = add_mandatory_children(df, fm_model, f, count, percentaje)
     return df
 
-# Agregar las caracteristicas que no se encontraron en los archivos YAML y tampoco son abstractas
+# Add the features that were not found in the YAML files and are not abstract
 def add_features_not_found(df, fm_model):
     for feature in fm_model.get_features():
-        if feature.name not in df['Feature'].values and not feature.is_abstract: # Solo agregar caracteristicas no abstractas
+        if feature.name not in df['Feature'].values and not feature.is_abstract: # Only add non-abstract features
             df.loc[len(df)] = {'Feature': feature.name, 'Count': 0, 'Percentage': 0}
     return df
 
 def main(folder_path, output_csv):
-    fm_model = UVLReader(fm_file).transform() # Cargamos el modelo
-    create_mapping(mapping_file) # Creamos los 2 diccionarios para tradcir las claves de los YAML a caracteristicas del FM.
-    key_counter, numConfPerManifest = count_keys_in_folder(folder_path) # Buscamos y contamos las caracteristicas en los YAML.
-    key_counts = key_counter.most_common() # Ordenamos las caracteristicas por frecuencia, de mas a comun a menos.
+    fm_model = UVLReader(fm_file).transform() # Load the model
+    create_mapping(mapping_file) # Create the 2 dictionaries to translate the YAML keys to features of the FM.
+    key_counter, numConfPerManifest = count_keys_in_folder(folder_path) # Search for and count the features in the YAML files
+    key_counts = key_counter.most_common() # Sort the features by frequency, from most common to least common
     
-    df = pd.DataFrame(key_counts, columns=['Feature', 'Count']) # Creamos un DataFrame con las caracteristicas y su frecuencia.
+    df = pd.DataFrame(key_counts, columns=['Feature', 'Count']) # Create a DataFrame with the features and their frequency
 
-    if not df.empty: # Si el DataFrame no esta vacio, calculamos el porcentaje de apariciones de cada caracteristica.
+    if not df.empty: # If the DataFrame is not empty, calculate the percentage of occurrences for each feature
         max_count = df['Count'].max()
         df['Percentage'] = (df['Count'] / max_count) * 100
-        df['Percentage'] = df['Percentage'].round(4)  # Redondear a 4 decimales
+        df['Percentage'] = df['Percentage'].round(4)  # Round to 4 decimal places
 
     try:
         for feature_name in df['Feature'].values:
             feature = fm_model.get_feature_by_name(feature_name)
             res = df.loc[df['Feature'] == feature.name, ['Count', 'Percentage']]
-            count = int(res['Count'].values[0])        # Convertir a entero
-            percentaje = float(res['Percentage'].values[0])  # Convertir a flotante
-            df = add_mandatory_children(df, fm_model, feature, count, percentaje) # Agregamos las caracteristicas hijas obligatorias
+            count = int(res['Count'].values[0])        # Convert to integer
+            percentaje = float(res['Percentage'].values[0])  # Convert to float
+            df = add_mandatory_children(df, fm_model, feature, count, percentaje) # Add the mandatory child features
     except AttributeError as e:
         print(f"Error: Could not find the feature {feature_name} in the FM model.")
 
-    df = add_features_not_found(df, fm_model) # Agregamos las caracteristicas que no se encontraron en los archivos YAML
+    df = add_features_not_found(df, fm_model) # Add the features that were not found in the YAML files
 
-    df = df.sort_values(by='Count', ascending=False) # Ordenar los resultados por frecuencia
+    df = df.sort_values(by='Count', ascending=False) # Sort the results by frequency
 
-    # Guardar el numero de configuraciones por manifiesto
+    # Save the number of configurations per manifest
     with open(output_numConfPerManifest_csv, mode='w', newline='', encoding='utf-8') as csv_file:
         csv_writer = csv.writer(csv_file)
         csv_writer.writerow(['File', 'numConfigurations'])
